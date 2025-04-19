@@ -109,7 +109,7 @@ p a:hover {
     width: 25px;  
 }
 
-.sumbit{
+.submit{
     width: 100%;
     padding: 10px;
     background-color: #b35c51;
@@ -122,7 +122,7 @@ p a:hover {
 
 }
 
-.sumbit:hover {
+.submit:hover {
     background-color: #a04a43;
 }
 

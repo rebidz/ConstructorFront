@@ -21,9 +21,6 @@
                         <input type="email" id="email" placeholder="Введите почту" required>
                     </div>
                     <div class="input-group">
-                        <input type="text" id="nickname" placeholder="Введите никнейм" required>
-                    </div>
-                    <div class="input-group">
                         <input type="text" id="firstName" placeholder="Введите имя" required>
                     </div>
                     <div class="input-group">
@@ -74,7 +71,6 @@
 
             // Получаем значения из полей ввода
             const email = document.getElementById('email').value;
-            //const nickname = document.getElementById('nickname').value;
             const firstName = document.getElementById('firstName').value;
             const lastName = document.getElementById('lastName').value;
             const password = document.getElementById('password').value;
@@ -95,7 +91,11 @@
             .then(response => response.json())
             .then(data => {
                 console.log("Ответ от сервера:", data);
-                // Здесь можно добавить логику для обработки успешной регистрации
+                if (data.success) {
+                    window.location.href = 'http://127.0.0.1:8000/auth/login';
+                } else {
+                    alert(data.message || "Ошибка входа");
+                }
             })
             .catch(error => {
                 console.error("Ошибка:", error);
@@ -104,8 +104,8 @@
 
         // Переход на страницу входа
         document.getElementById('loginLink').addEventListener('click', function(event) {
-            event.preventDefault(); // Предотвращаем переход по ссылке
-            window.location.href = 'login.html'; // Укажите путь к странице входа
+            event.preventDefault();
+            window.location.href = 'http://127.0.0.1:8000/auth/login';
         });
     </script>
 

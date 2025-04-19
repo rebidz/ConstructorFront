@@ -58,9 +58,9 @@
             fetch("http://127.0.0.1:8000/auth/login", {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json",
+                    "Content-Type": "application/x-www-form-urlencoded",
                 },
-                body: JSON.stringify({
+                body: new URLSearchParams({
                     email: email,
                     password: password
                 }),
@@ -68,12 +68,10 @@
             .then(response => response.json())
             .then(data => {
                 console.log("Ответ от сервера:", data);
-                // Здесь можно добавить логику для обработки успешного входа
                 if (data.success) {
-                    // Например, перенаправление на главную страницу или другую логику
-                    window.location.href = '/home'; // Укажите путь к главной странице после входа
+                    window.location.href = 'http://127.0.0.1:8000/tests/create_or_save_test';
                 } else {
-                    alert(data.message || "Ошибка входа"); // Показываем сообщение об ошибке
+                    alert(data.message || "Ошибка входа");
                 }
             })
             .catch(error => {
@@ -83,8 +81,8 @@
 
         // Переход на страницу регистрации
         document.getElementById('registerLink').addEventListener('click', function(event) {
-            event.preventDefault(); // Предотвращаем переход по ссылке
-            window.location.href = 'registration.html'; // Укажите путь к странице регистрации
+            event.preventDefault();
+            window.location.href = 'http://127.0.0.1:8000/users/create_user';
         });
     </script>
 
