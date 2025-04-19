@@ -1,0 +1,145 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f1f1f1;
+    margin: 0;
+}
+
+h1 {
+    font-size: 24px;
+    color: #333333;
+    margin-bottom: 20px;
+}
+
+p {
+    margin-top: 15px;
+    font-size: 14px;
+    color: #a4a4a4;
+}
+
+p a {
+    color: #a4a4a4;
+    text-decoration: none;
+}
+
+p a:hover {
+    text-decoration: underline;
+}
+
+.container {
+    display: flex;
+    width: 1920px;
+    height: 1080px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.left-side {
+    flex: 1;
+    background-color: #D38779;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 448px;
+    /*background-color: #d48172;*/
+    /*border: 3px solid #fff;*/
+    border-top: none;
+    border-bottom: none;
+}
+
+.header-logo-img {
+    height: 387px;
+    width: 443px;
+    /*background-color: #d48172;*/
+}
+
+.right-side {
+    flex: 1;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.register-form {
+    width: 80%;
+    max-width: 300px;
+    text-align: center;
+}
+
+.input-group {
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #b35c51;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.password-group .eye-icon {
+    background-color: #ffffff;
+    border: none;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+.profile-image {
+    width: 25px;  
+}
+
+.radio-group {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+    font-size: 14px;
+    color: #333333;
+}
+
+.radio-group label {
+    display: flex;
+    align-items: center;
+}
+
+.radio-group input {
+    margin-right: 5px;
+}
+
+.sumbit{
+    width: 100%;
+    padding: 10px;
+    background-color: #b35c51;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+}
+
+.sumbit:hover {
+    background-color: #a04a43;
+}
+

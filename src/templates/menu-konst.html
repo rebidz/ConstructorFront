@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Конструктор</title>
+        <link rel="stylesheet" href="/src/static/css/menu-konst.css">
+    </head>
+    <body>
+        <script src="/src/js/renderTests.js"></script>
+        <header class = "header">
+            <div class="header-logo">
+                <img class="header-logo-img" src="/src/static/img/logo-2.png" alt="Logo">
+            </div>
+            <div class="icons">
+                <a href="#"><img src="/src/static/img/location.svg" alt="geo"></a>
+                <a href="#"><img src="/src/static/img/mail.svg" alt="Email"></a>
+                <a href="#"><img src="/src/static/img/profile.svg" alt="User"></a>
+            </div>
+        </header>
+        <main>
+            <section class="search-section">
+                <h1>Создать тест</h1>
+                <div class="search-bar-1" onclick="location.href='{% url 'editor:constructor' %}'">
+                    <img src="/src/static/img/plus-test.svg">
+                </div>
+                <div class="search-bar">
+                    <img src="/src/static/img/plus-test.svg">
+                </div>
+                <div class="search-bar">
+                    <img src="/src/static/img/plus-test.svg">
+                </div>
+                <div class="search-bar">
+                    <img src="/src/static/img/plus-test.svg">
+                </div>
+                <div class="search-bar">
+                    <img src="/src/static/img/plus-test.svg">
+                </div>
+                <div class="search-bar">
+                    <img src="/src/static/img/plus-test.svg">
+                </div>
+            </section>
+            <h1 class="main-h1">Недавние тесты</h1>
+            <section class="vacancies">
+                <!-- Недавние тесты отображаются ниже -->
+            </section>
+        </main>
+        <footer>
+            <div class="footer-content">
+                <div class="footer-section-1">
+                    <img src="/src/static/img/logo-2.png" alt="mascot" class="footer-image">
+                </div>
+                <div class="footer-section">
+                    <h3>Основное</h3>
+                    <ul>
+                        <li><a href="#">Согласие на получение рекламных сообщений</a></li>
+                        <li><a href="#">Контакты</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Правовая информация</h3>
+                    <ul>
+                        <li><a href="#">Пользовательское соглашение</a></li>
+                        <li><a href="#">Политика обработки персональных данных</a></li>
+                    </ul>
+                </div>
+            </div>
+        </footer>
+        <!-- Карточка готового теста -->
+        <template>
+            <div class="card">
+                    <div class="card-image"></div>
+                    <div class="card-content">
+                        <div class="card-title"></div>
+                        <div class="card-date"></div>
+                        <button class="card-delete"><img src="/src/static/img/recycle.svg"></button>
+                    </div>
+                </div>
+        </template>
+    </body>
+</html>

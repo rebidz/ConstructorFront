@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Главная страница стажерам</title>
+        <link rel="stylesheet" href="/src/static/css/intern-main.css">
+    </head>
+    <body>
+        <header class = "header">
+            <div class="header-logo">
+                <img class="header-logo-img" src="/src/static/img/logo-2.png" alt="Logo">
+            </div>
+            <nav class="header-nav">
+                <a href="{% url 'editor:editor_main' %}" class="nav-link">Работодателям</a>
+                <a href="{% url 'intern_main' %}" class="nav-link highlight">Студентам</a>
+            </nav>
+            <div class="icons">
+                <a href="#"><img src="/src/static/img/location.svg" alt="geo"></a>
+                <a href="#"><img src="/src/static/img/mail.svg" alt="Email"></a>
+                <a href="#"><img src="/src/static/img/profile.svg" alt="User"></a>
+            </div>
+        </header>
+        <main>
+            <section class="hero">
+                <h1>Подберите стажировку, которая подходит именно Вам</h1>
+            <button class="cta-button" onclick="location.href='{% url 'users:registration' %}'">Найти стажировку</button>
+            <div class="hero-images">
+                <img src="/src/static/img/card1.svg" alt="Клипборд">
+                <img src="/src/static/img/card2.svg" alt="Отзывы">
+            </div>
+            </section>
+            <section class="features">
+                <h2>Почему стоит искать вакансию на <br>"Название сервиса"</h2>
+                <ul>
+                    <li><img src="/src/static/img/check.svg" class = "features-check"> <nav class = "features-text">Автоматическая проверка тестов</nav></li>
+                    <li><img src="/src/static/img/check.svg" class = "features-check"> <nav class = "features-text">Уведомление об успешном прохождении тестирования</nav></li>
+                    <li><img src="/src/static/img/check.svg" class = "features-check"> <nav class = "features-text">Удобство в поиске вакансий</nav></li>
+                    <li><img src="/src/static/img/check.svg" class = "features-check"> <nav class = "features-text">Найдётся то, что подходит именно Вам</nav></li>
+                </ul>
+                <img src="/src/static/img/card3.svg" alt="Документ с галочкой" class="features-image">
+            </section>
+            <section class="steps">
+                <h2>Как найти стажировку?</h2>
+                <div class="steps-icons">
+                    <img src="/src/static/img/1-1.svg">
+                    <img src="/src/static/img/arrow.svg">
+                    <img src="/src/static/img/1-2.svg">
+                    <img src="/src/static/img/arrow.svg">
+                    <img src="/src/static/img/1-3.svg">
+                </div>
+                <button class="ctac-button" onclick="location.href='{% url 'users:registration' %}'">Начать поиск</button>
+            </section>
+        </main>
+        <footer>
+            <div class="footer-content">
+                <div class="footer-section-1">
+                    <img src="/src/static/img/logo-2.png" alt="mascot" class="footer-image">
+                </div>
+                <div class="footer-section">
+                    <h3>Основное</h3>
+                    <ul>
+                        <li><a href="#">Согласие на получение рекламных сообщений</a></li>
+                        <li><a href="#">Контакты</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Правовая информация</h3>
+                    <ul>
+                        <li><a href="#">Пользовательское соглашение</a></li>
+                        <li><a href="#">Политика обработки персональных данных</a></li>
+                    </ul>
+                </div>
+            </div>
+        </footer>
+    </body>
+</html>

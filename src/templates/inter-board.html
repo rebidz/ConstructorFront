@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Поиск стажировок</title>
+        <link rel="stylesheet" href="/src/static/css/inter-board.css">
+    </head>
+    <body>
+        <script src="/src/js/renderVacancies.js"></script>
+        <header class = "header">
+            <div class="header-logo">
+                <img class="header-logo-img" src="/src/static/img/logo-2.png" alt="Logo">
+            </div>
+            <div class="icons">
+                <a href="#"><img src="/src/static/img/location.svg" alt="geo"></a>
+                <a href="#"><img src="/src/static/img/mail.svg" alt="Email"></a>
+                <a href="#"><img src="/src/static/img/profile.svg" alt="User"></a>
+            </div>
+        </header>
+        <main>
+            <section class="search-section">
+                <h1>Поиск вакансий для стажировки</h1>
+                <div class="search-bar">
+                    <input class="search-bar-inp" type="search" placeholder="Профессия, должность или комания">
+                    <button><img src="/src/static/img/search.svg" alt="Поиск"></button>
+                    <button><img src="/src/static/img/options.svg" alt="Фильтр"></button>
+                </div>
+                <div class="illustration">
+                    <img src="/src/static/img/card.svg" alt="Иллюстрация">
+                </div>
+            </section>
+            <section class="vacancies">
+                {% for vacancy in vacancies %}
+                <div class="vacancy-card" onclick="openDialog('{{ vacancy.id }}', '{{ vacancy.test_id }}')">
+                    <h3>{{ vacancy.title }}</h3>
+                    <p>Компания: {{ vacancy.company_name }}</p>
+                    <p>Период проведения: {{ vacancy.internship_period }}</p>
+                </div>
+                <dialog class="vacancy-card-1-menu" id="overlayMenu-{{ vacancy.id }}">
+                    <div class="vacancy-card-1-menu-1">
+                        <form class="menu-form" method="dialog">
+                            <div class="menu-style">
+                                <h3>{{ vacancy.title }}</h3>
+                                <p>Компания: {{ vacancy.company_name }}</p>
+                                <p>Период проведения: {{ vacancy.internship_period }}</p>
+                                <p>Описание: {{ vacancy.description }}</p>
+                            </div>
+                            <button class="menu-close">
+                                <img class="menu-close-img" src="/src/static/img/close.svg" alt="close">
+                            </button>
+                        </form>
+                        <div class="menu-test">
+                            <button class="menu-test-b" data-vacancy-id="{{ vacancy.id }}">Пройти тест</button>
+                        </div>
+                    </div>
+                </dialog>
+                {% empty %}
+                <p>Вакансий пока нет.</p>
+                {% endfor %}
+            </section>
+        </main>
+        <footer>
+            <div class="footer-content">
+                <div class="footer-section-1">
+                    <img src="/src/static/img/logo-2.png" alt="mascot" class="footer-image">
+                </div>
+                <div class="footer-section">
+                    <h3>Основное</h3>
+                    <ul>
+                        <li><a href="#">Согласие на получение рекламных сообщений</a></li>
+                        <li><a href="#">Контакты</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Правовая информация</h3>
+                    <ul>
+                        <li><a href="#">Пользовательское соглашение</a></li>
+                        <li><a href="#">Политика обработки персональных данных</a></li>
+                    </ul>
+                </div>
+            </div>
+        </footer>
+    </body>
+</html>

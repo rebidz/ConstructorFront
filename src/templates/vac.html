@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Конструктор ваканисии</title>
+        <link rel="stylesheet" href="/src/static/css/vac.css">
+    </head>
+    <body>
+        <header class = "header">
+            <div class="header-logo">
+                <img class="header-logo-img" src="/src/static/img/logo-2.png" alt="Logo">
+            </div>
+            <button onclick="location.href='{% url 'editor:menu_konst' %}'" class ="hc-button">К тестам</button>
+            <div class="icons">
+                <a href="#"><img src="/src/static/img/location.svg" alt="geo"></a>
+                <a href="#"><img src="/src/static/img/mail.svg" alt="Email"></a>
+                <a href="#"><img src="/src/static/img/profile.svg" alt="User"></a>
+            </div>
+        </header>
+        <main>
+            <form class="form-vac" action="{% url 'editor:save_vacancy' %}" method="post">
+                <label class="label-name">
+                    <span class="span-title">Название вакансии</span>
+                    <input type="text" name="name-vac" class="inp-name" required>
+                </label>
+                <label class="label-name">
+                    <span class="span-title">Название компании</span>
+                    <input type="text" name="name-comp" class="inp-comp" required>
+                </label>
+                <label class="label-name">
+                    <span class="span-title-1">Описание вакансии</span>
+                    <textarea autocomplete="on" name="comment" cols="40" rows="5" class="inp-comm" required></textarea>
+                </label>
+                <label class="label-name">
+                    <span class="span-title">Период стажировки</span>
+                    <input type="text" name="date-vac" class="inp-date" placeholder="Например, ``1 месяц`` или ``с 01.01.2025 по 01.03.2025``" required>
+                </label>
+                <input type="hidden" name="test_id" value="{{ test_id }}">
+                <button class="but-vac" type="submit">Сохранить вакансию</button>
+            </form>
+        </main>
+        <footer>
+            <div class="footer-content">
+                <div class="footer-section-1">
+                    <img src="/src/static/img/logo-2.png" alt="mascot" class="footer-image">
+                </div>
+                <div class="footer-section">
+                    <h3>Основное</h3>
+                    <ul>
+                        <li><a href="#">Согласие на получение рекламных сообщений</a></li>
+                        <li><a href="#">Контакты</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Правовая информация</h3>
+                    <ul>
+                        <li><a href="#">Пользовательское соглашение</a></li>
+                        <li><a href="#">Политика обработки персональных данных</a></li>
+                    </ul>
+                </div>
+            </div>
+        </footer>
+    </body>
+</html>

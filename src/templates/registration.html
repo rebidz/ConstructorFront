@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация</title>
+    <link rel="stylesheet" href="/src/static/css/registration.css">
+</head>
+<body>
+    <div class="container">
+        <div class="left-side">
+            <div class="logo">
+                <img class="header-logo-img" src="/src/static/img/Frame-7.png" alt="logo">
+            </div>
+        </div>
+        <div class="right-side">
+            <div class="register-form">
+                <h1>Регистрация</h1>
+                <form id="registrationForm">
+                    <div class="input-group">
+                        <input type="email" id="email" placeholder="Введите почту" required>
+                    </div>
+                    <div class="input-group">
+                        <input type="text" id="nickname" placeholder="Введите никнейм" required>
+                    </div>
+                    <div class="input-group">
+                        <input type="text" id="firstName" placeholder="Введите имя" required>
+                    </div>
+                    <div class="input-group">
+                        <input type="text" id="lastName" placeholder="Введите фамилию" required>
+                    </div>
+                    <div class="input-group password-group">
+                        <input type="password" id="password" placeholder="Введите пароль" required>
+                        <button type="button" class="eye-icon">
+                            <img src="/src/static/img/eye.svg" class="profile-image">
+                        </button>
+                    </div>
+                    <div class="input-group password-group">
+                        <input type="password" id="confirmPassword" placeholder="Повторите пароль" required>
+                        <button type="button" class="eye-icon">
+                            <img src="/src/static/img/eye.svg" class="profile-image">
+                        </button>
+                    </div>
+                    <div class="radio-group">
+                        <label><input type="radio" name="role" value="intern" checked> Стажёр</label>
+                        <label><input type="radio" name="role" value="editor"> Редактор</label>
+                    </div>
+                    <button class="submit" type="submit">Зарегистрироваться</button>
+                </form>
+                <p><a href="#" id='loginLink'>Обратно ко входу</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Скрипт для обработки формы и перехода на страницу входа -->
+    <script>
+        const passwordGroups = document.querySelectorAll('.password-group');
+        passwordGroups.forEach(group => {
+            const passwordInput = group.querySelector('input');
+            const eyeIcon = group.querySelector('.eye-icon');
+
+            eyeIcon.addEventListener('click', () => {
+                if (passwordInput.type === 'password') {
+                    passwordInput.type = 'text';
+                } else {
+                    passwordInput.type = 'password';
+                }
+            });
+        });
+
+        // Обработка отправки формы
+        document.getElementById('registrationForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // Получаем значения из полей ввода
+            const email = document.getElementById('email').value;
+            //const nickname = document.getElementById('nickname').value;
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            const password = document.getElementById('password').value;
+
+            // Отправляем данные на сервер
+            fetch("http://127.0.0.1:8000/users/create_user", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    email: email,
+                    first_name: firstName,
+                    last_name: lastName,
+                    password: password
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log("Ответ от сервера:", data);
+                // Здесь можно добавить логику для обработки успешной регистрации
+            })
+            .catch(error => {
+                console.error("Ошибка:", error);
+            });
+        });
+
+        // Переход на страницу входа
+        document.getElementById('loginLink').addEventListener('click', function(event) {
+            event.preventDefault(); // Предотвращаем переход по ссылке
+            window.location.href = 'login.html'; // Укажите путь к странице входа
+        });
+    </script>
+
+</body>
+</html>

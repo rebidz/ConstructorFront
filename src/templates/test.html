@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="csrf-token" content="{{ csrf_token }}">
+        <title>constructor</title>
+        <link rel="stylesheet" href="/src/static/css/konst.css">
+    </head>
+    <body>
+        <script src="/src/js/openTest.js"></script>
+        <script>
+            const test_data = {{ test_data|safe }};
+        </script>
+        <header class = "header">
+            <div class="header-logo">
+                <img class="header-logo-img" src="/src/static/img/logo-2.png" alt="Logo">
+            </div>
+            <button class ="hc-button-3">Закончить тест</button>
+            <div class="icons">
+                <a href="#"><img src="/src/static/img/location.svg" alt="geo"></a>
+                <a href="#"><img src="/src/static/img/mail.svg" alt="Email"></a>
+                <a href="#"><img src="/src/static/img/profile.svg" alt="User"></a>
+            </div>
+        </header>
+        <main>
+            <section class="form-container">
+                <div class="form-header">
+                    <h1 id="test-title">{{ test_data.title }}</h1>
+                    <p id="test-description">{{ test_data.description }}</p>
+                </div>
+                <div id="form-questions" class="form-questions">
+                    <!-- Вопросы будут отображаться ниже -->
+                </div>
+            </section>
+        </main>
+        <footer>
+            <div class="footer-content">
+                <div class="footer-section-1">
+                    <img src="/src/static/img/logo-2.png" alt="mascot" class="footer-image">
+                </div>
+                <div class="footer-section">
+                    <h3>Основное</h3>
+                    <ul>
+                        <li><a href="#">Согласие на получение рекламных сообщений</a></li>
+                        <li><a href="#">Контакты</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Правовая информация</h3>
+                    <ul>
+                        <li><a href="#">Пользовательское соглашение</a></li>
+                        <li><a href="#">Политика обработки персональных данных</a></li>
+                    </ul>
+                </div>
+            </div>
+        </footer>
+    </body>
+</html>
