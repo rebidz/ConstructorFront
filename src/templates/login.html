@@ -28,7 +28,7 @@
                     </div>
                     <button class="submit" type="submit">Войти</button> <!-- Исправляем опечатку в классе -->
                 </form>
-                <p><a href="#" id='registerLink'>Нет аккаунта? Зарегистрироваться</a></p> <!-- Добавляем ID для ссылки -->
+                <p><a href="registration.html" id='registerLink'>Нет аккаунта? Зарегистрироваться</a></p> <!-- Добавляем ID для ссылки -->
             </div>
         </div>
     </div>
@@ -37,7 +37,6 @@
         const passwordInput = document.getElementById('password');
         const eyeIcon = document.querySelector('.eye-icon');
 
-        // Обработка показа/скрытия пароля
         eyeIcon.addEventListener('click', () => {
             if (passwordInput.type === 'password') {
                 passwordInput.type = 'text';
@@ -66,25 +65,18 @@
                 }),
             })
             .then(response => response.json())
-            .then(data => {
-                console.log("Ответ от сервера:", data);
-                if (data.success) {
-                    window.location.href = 'http://127.0.0.1:8000/tests/create_or_save_test';
+            .then(response => {
+                console.log("Ответ от сервера:", response.message);
+                if (response.ok) {
+                    window.location.href = 'menu-konst.html';
                 } else {
-                    alert(data.message || "Ошибка входа");
+                    alert(response.detail);
                 }
             })
             .catch(error => {
                 console.error("Ошибка:", error);
             });
         });
-
-        // Переход на страницу регистрации
-        document.getElementById('registerLink').addEventListener('click', function(event) {
-            event.preventDefault();
-            window.location.href = 'http://127.0.0.1:8000/users/create_user';
-        });
     </script>
-
 </body>
 </html>

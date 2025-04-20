@@ -44,12 +44,11 @@
                     </div>
                     <button class="submit" type="submit">Зарегистрироваться</button>
                 </form>
-                <p><a href="#" id='loginLink'>Обратно ко входу</a></p>
+                <p><a href="login.html" id='loginLink'>Обратно ко входу</a></p>
             </div>
         </div>
     </div>
 
-    <!-- Скрипт для обработки формы и перехода на страницу входа -->
     <script>
         const passwordGroups = document.querySelectorAll('.password-group');
         passwordGroups.forEach(group => {
@@ -89,25 +88,18 @@
                 }),
             })
             .then(response => response.json())
-            .then(data => {
-                console.log("Ответ от сервера:", data);
-                if (data.success) {
-                    window.location.href = 'http://127.0.0.1:8000/auth/login';
+            .then(response => {
+                console.log("Ответ от сервера:", response);
+                if (response.ok) {
+                    window.location.href = 'login.html';
                 } else {
-                    alert(data.message || "Ошибка входа");
+                    alert(response.detail);
                 }
             })
             .catch(error => {
                 console.error("Ошибка:", error);
             });
         });
-
-        // Переход на страницу входа
-        document.getElementById('loginLink').addEventListener('click', function(event) {
-            event.preventDefault();
-            window.location.href = 'http://127.0.0.1:8000/auth/login';
-        });
     </script>
-
 </body>
 </html>
