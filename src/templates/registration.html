@@ -64,17 +64,14 @@
             });
         });
 
-        // Обработка отправки формы
         document.getElementById('registrationForm').addEventListener('submit', function(event) {
             event.preventDefault();
 
-            // Получаем значения из полей ввода
             const email = document.getElementById('email').value;
             const firstName = document.getElementById('firstName').value;
             const lastName = document.getElementById('lastName').value;
             const password = document.getElementById('password').value;
 
-            // Отправляем данные на сервер
             fetch("http://127.0.0.1:8000/users/create_user", {
                 method: "POST",
                 headers: {

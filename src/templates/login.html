@@ -16,19 +16,19 @@
         <div class="right-side">
             <div class="login-form">
                 <h1>Вход</h1>
-                <form id="loginForm"> <!-- Добавляем id для формы -->
+                <form id="loginForm">
                     <div class="input-group">
-                        <input type="email" id="email" placeholder="Введите почту" required> <!-- Добавляем id для email -->
+                        <input type="email" id="email" placeholder="Введите почту" required>
                     </div>
                     <div class="input-group password-group">
-                        <input type="password" id="password" placeholder="Введите пароль" required> <!-- Убедитесь, что id совпадает -->
-                        <button type="button" class="eye-icon"> <!-- Изменяем тип кнопки на button -->
+                        <input type="password" id="password" placeholder="Введите пароль" required>
+                        <button type="button" class="eye-icon">
                             <img src="/src/static/img/eye.svg" class="profile-image">
                         </button>
                     </div>
-                    <button class="submit" type="submit">Войти</button> <!-- Исправляем опечатку в классе -->
+                    <button class="submit" type="submit">Войти</button>
                 </form>
-                <p><a href="registration.html" id='registerLink'>Нет аккаунта? Зарегистрироваться</a></p> <!-- Добавляем ID для ссылки -->
+                <p><a href="registration.html" id='registerLink'>Нет аккаунта? Зарегистрироваться</a></p>
             </div>
         </div>
     </div>
@@ -45,15 +45,12 @@
             }
         });
 
-        // Обработка отправки формы
         document.getElementById('loginForm').addEventListener('submit', function(event) {
             event.preventDefault();
 
-            // Получаем значения из полей ввода
             const email = document.getElementById('email').value;
             const password = passwordInput.value;
 
-            // Отправляем данные на сервер
             fetch("http://127.0.0.1:8000/auth/login", {
                 method: "POST",
                 headers: {
