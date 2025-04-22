@@ -101,15 +101,15 @@ async function fetchUserData() {
     try {
         const response = await fetch("http://127.0.0.1:8000/users/me", {
             method: "GET",
+            credentials: "include",
             headers: {
-                "Authorization": "Bearer YOUR_ACCESS_TOKEN" // Замените на ваш токен доступа
+              "Accept": "application/json",
+              "Content-Type": "application/x-www-form-urlencoded"
             }
         });
-
         if (!response.ok) {
             throw new Error("Ошибка при получении данных пользователя");
         }
-
         const userData = await response.json();
         displayUserTests(userData.tests); // Отображаем тесты пользователя
     } catch (error) {
@@ -121,7 +121,6 @@ async function fetchUserData() {
 function displayUserTests(tests) {
     const vacanciesSection = document.querySelector('.vacancies');
     vacanciesSection.innerHTML = ''; // Очищаем секцию перед добавлением новых тестов
-
     tests.forEach(test => {
         const testCard = document.createElement('div');
         testCard.classList.add('card');
