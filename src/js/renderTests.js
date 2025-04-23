@@ -103,8 +103,7 @@ async function fetchUserData() {
             method: "GET",
             credentials: "include",
             headers: {
-              "Accept": "application/json",
-              "Content-Type": "application/x-www-form-urlencoded"
+              "Accept": "application/json"
             }
         });
         if (!response.ok) {
@@ -118,7 +117,7 @@ async function fetchUserData() {
 }
 
 // Функция для отображения тестов пользователя
-function displayUserTests(tests) {
+async function displayUserTests(tests) {
     const vacanciesSection = document.querySelector('.vacancies');
     vacanciesSection.innerHTML = ''; // Очищаем секцию перед добавлением новых тестов
     tests.forEach(test => {
@@ -157,12 +156,17 @@ function displayUserTests(tests) {
 // Функция для удаления теста
 async function deleteTest(testId, cardElement) {
     try {
-        const response = await fetch(`http://127.0.0.1:8000/tests/delete_test/${testId}/`, { method: 'DELETE' });
+        const response = await fetch(`http://127.0.0.1:8000/tests/delete_test/${testId}`, {
+            method: "DELETE",
+            headers: {
+              "Accept": "application/json"
+            }
+        });
 
         if (!response.ok) {
             throw new Error("Ошибка при удалении теста");
         }
-
+        console.log(response.message)
         // Удаляем карточку из DOM
         cardElement.remove();
     } catch (error) {
