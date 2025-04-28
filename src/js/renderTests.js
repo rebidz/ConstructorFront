@@ -110,7 +110,7 @@ async function fetchUserData() {
             throw new Error("Ошибка при получении данных пользователя");
         }
         const userData = await response.json();
-        displayUserTests(userData.tests); // Отображаем тесты пользователя
+        await displayUserTests(userData.tests); // Отображаем тесты пользователя
     } catch (error) {
         console.error("Ошибка:", error);
     }
@@ -120,7 +120,7 @@ async function fetchUserData() {
 async function displayUserTests(tests) {
     const vacanciesSection = document.querySelector('.vacancies');
     vacanciesSection.innerHTML = ''; // Очищаем секцию перед добавлением новых тестов
-    tests.forEach(test => {
+    tests.reverse().forEach(test => {
         const testCard = document.createElement('div');
         testCard.classList.add('card');
 

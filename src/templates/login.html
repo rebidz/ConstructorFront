@@ -36,45 +36,20 @@
     <script src="/src/js/auth.js"></script>
     <script>
         const passwordInput = document.getElementById('password');
-        const eyeIcon = document.querySelector('.eye-icon');
+        const eyeIcon = document.querySelector('.eye-icon img');
 
         eyeIcon.addEventListener('click', () => {
             if (passwordInput.type === 'password') {
                 passwordInput.type = 'text';
+                eyeIcon.src = '/src/static/img/open-eye.svg';
+
             } else {
                 passwordInput.type = 'password';
+                eyeIcon.src = '/src/static/img/eye.svg';
             }
         });
-
-        // document.getElementById('loginForm').addEventListener('submit', function(event) {
-        //     event.preventDefault();
-        //
-        //     const email = document.getElementById('email').value;
-        //     const password = passwordInput.value;
-        //
-        //     fetch("http://127.0.0.1:8000/auth/login", {
-        //         method: "POST",
-        //         headers: {
-        //             "Content-Type": "application/x-www-form-urlencoded",
-        //         },
-        //         body: new URLSearchParams({
-        //             email: email,
-        //             password: password
-        //         }),
-        //     })
-        //     .then(response => response.json())
-        //     .then(response => {
-        //         console.log("Ответ от сервера:", response.message);
-        //         if (response.ok) {
-        //             window.location.href = 'menu-konst.html';
-        //         } else {
-        //             alert(response.detail);
-        //         }
-        //     })
-        //     .catch(error => {
-        //         console.error("Ошибка:", error);
-        //     });
-        // });
     </script>
+    <template>
+    </template>
 </body>
 </html>
