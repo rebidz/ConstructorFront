@@ -10,7 +10,7 @@
     <body>
         <script src="/src/js/script.js"></script>
         <script>
-            const test_data = {{ test_data|safe }};
+            // const test_data = {{ test_data|safe }};
             function publishAndRedirect() {
                 const testId = test_data.id;
                 window.location.href = "{% url 'editor:vac_konst' %}?test_id=" + testId;
@@ -28,7 +28,7 @@
                 <a href="lk.html"><img src="/src/static/img/profile.svg" alt="User"></a>
             </div>
         </header>
-        <button class="back" onclick="location.href='{% url 'editor:menu_konst' %}'"><img src="/src/static/img/Arrow-3.svg" class="back-img"><p class="back-p">Назад</p></button>
+        <button class="back" onclick="location.href='menu-konst.html'"><img src="/src/static/img/Arrow-3.svg" class="back-img"><p class="back-p">Назад</p></button>
         <main>
             <section class="form-container">
                 <div class="form-header">
