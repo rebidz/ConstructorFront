@@ -85,11 +85,13 @@ main {
 .avatar-p-2 {
     color: black;
     text-decoration: underline;
+    cursor:pointer;
 }
 
 .avatar-p-3 {
     color: #AB7843;
     text-decoration: none;
+    cursor:pointer;
 }
 
 .right-side {
