@@ -361,6 +361,7 @@
 // });
 
 
+
 document.addEventListener('DOMContentLoaded', async () => {
     let test_data = null;
     let questionCount = 0;
@@ -574,6 +575,68 @@ document.addEventListener('DOMContentLoaded', async () => {
         initializeQuestionControls(formQuestions.lastElementChild);
     };
 
+    function getJwtTokenFromCookies() {
+      const cookieString = document.cookie;
+      const cookies = cookieString.split('; ');
+
+      for (const cookie of cookies) {
+        const [name, value] = cookie.split('=');
+        if (name === 'access_token' || name === 'jwt' || name === 'token') { // Подставьте правильное имя вашей куки
+          return value;
+        }
+      }
+      return null;
+    }
+
+    function decodeJwtToken(token) {
+      try {
+        // JWT состоит из 3 частей, разделенных точками: header.payload.signature
+        const base64Url = token.split('.')[1];
+
+        // Заменяем символы, специфичные для base64url
+        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+
+        // Декодируем base64
+        const jsonPayload = decodeURIComponent(
+          atob(base64)
+            .split('')
+            .map(c => '%' + ('00' + c.charCodeAt(0).toString(16).slice(-2))
+            .join('')
+        ));
+
+        return JSON.parse(jsonPayload);
+      } catch (error) {
+        console.error('Ошибка декодирования JWT:', error);
+        return null;
+      }
+    }
+
+    function getUserIdFromJwt() {
+      // 1. Получаем токен из куки
+      const token = getJwtTokenFromCookies();
+      if (!token) {
+        console.error('JWT токен не найден в куках');
+        return null;
+      }
+
+      // 2. Декодируем токен
+      const decodedToken = decodeJwtToken(token);
+      if (!decodedToken) {
+        console.error('Не удалось декодировать JWT токен');
+        return null;
+      }
+
+      // 3. Извлекаем user_id
+      const userId = decodedToken.id; // В вашем примере это поле "id"
+      if (!userId) {
+        console.error('Поле id не найдено в JWT токене');
+        return null;
+      }
+
+      return userId;
+    }
+
+
     const saveTest = () => {
         const testTitle = document.querySelector('.form-header h1').textContent.trim();
         const testDescription = document.querySelector('.form-header p').textContent.trim();
@@ -598,13 +661,15 @@ document.addEventListener('DOMContentLoaded', async () => {
             return {title, question_type: questionType, options, answer_text: answerText, scores};
         });
 
+        const userId = 'defd7a5a-4f70-4970-9db5-19d7580d8e8b';
+
         let testData = {
             title: testTitle,
             description: testDescription,
             questions: questions,
             duration: "14:18:03",
             passing_score: 20,
-            user_id: "2ac5e036-f3c0-41e3-a1f9-348e62fed134"
+            user_id: userId
 
         };
 
