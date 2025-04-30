@@ -684,9 +684,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         let url = 'http://127.0.0.1:8000/tests/create_or_save_test';
         if (testId !== null) {
-            url += `?id=${testId}`;
+            url += `?test_id=${testId}`;
         }
-
+        console.log(url)
         fetch(url, {
             method: 'POST',
             headers: {

@@ -153,7 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (response.ok) {
                     alert('Вы вышли из аккаунта.');
-                    window.location.href = '/login.html';
+                    window.location.href = 'login.html';
                 } else {
                     alert('Ошибка при выходе из аккаунта.');
                 }

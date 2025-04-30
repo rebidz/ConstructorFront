@@ -151,7 +151,7 @@ function setupCardHandlers() {
 async function displayUserTests(tests) {
     const vacanciesSection = document.querySelector('.vacancies');
     vacanciesSection.innerHTML = ''; // Очищаем секцию перед добавлением новых тестов
-    tests.reverse().forEach(test => {
+    tests.forEach(test => {
         let cardTitle = test.title
         if (cardTitle.length > 12) {
             cardTitle = cardTitle.slice(0, 12) + '...'
