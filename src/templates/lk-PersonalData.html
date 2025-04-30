@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Личный-кабинет</title>
-        <link rel="stylesheet" href="/src/static/css/lk.css">
+        <link rel="stylesheet" href="/src/static/css/lk-pd.css">
     </head>
     <body>
         <header class = "header">
@@ -21,20 +21,42 @@
             <section class="container">
                 <section class="left-side">
                     <section class="avatar">
-                        <img src="/src/static/img/avatar.svg" alt="avatar">
+                        <img src="/src/static/img/avatar-mini.svg" alt="avatar">
                     </section>
                     <section class="avatar-p">
-                        <p><a href="lk-PersonalData.html">Изменить<br>личную информацию</a></p>
-                        <p class="avatar-p-2">Удалить аккаунт</p>
-                        <p class="avatar-p-3">Выйти</p>
+                        <p class="avatar-p-1">Иванов Иван Иванович</p>
+                        <p class="avatar-p-2">Ivanov.Ivan@example.com</p>
+                        <p class="avatar-p-3"><a href="lk.html">Вeрнуться обратно</a></p>
                     </section>
                 </section>
                 <section class="right-side">
                     <div class="info">
                         <h1>Личные данные</h1>
-                        <h4>Иванов Иван Иванович</h4>
-                        <h4>Ivanov.Ivan@example.com</h4>
                     </div>
+                    <form id="registrationForm">
+                        <div class="input-group">
+                            <div class="input-group-2">
+                                <p>ФИО</p>
+                                <p>Почта</p>
+                                <p>Пароль</p>
+                            </div>
+                            <div class="input-group-3">
+                                <div class="input-group-1">
+                                    <input type="text" id="firstName" placeholder="Введите ФИО" required>
+                                </div>
+                                <div class="input-group-1">
+                                    <input type="email" id="email" placeholder="Введите почту" required>
+                                </div>
+                                <div class="input-group-1 password-group">
+                                    <input type="password" id="password" placeholder="Введите пароль" required>
+                                </div>
+                                <div class="input-group-1 password-group">
+                                    <input type="password" id="confirmPassword" placeholder="Повторите пароль" required>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="submit" type="submit">Сохранить</button>
+                    </form>
                 </section>
             </section>
         </main>
