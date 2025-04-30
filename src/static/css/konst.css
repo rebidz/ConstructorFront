@@ -2,7 +2,7 @@ body {
     font-family: "Arial", sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #FFF7EB;
+    background-color: #EFDFC1;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
@@ -10,7 +10,7 @@ body {
 }
 
 footer {
-    background-color: #9C4D50;
+    background-color: #6D3914;
     padding: 13px 0;
     font-family: Arial, sans-serif;
     margin-top: auto;
@@ -21,7 +21,7 @@ footer {
     align-items: center;
     justify-content: space-between;
     padding: 0px 20px;
-    background-color: #9C4D50;
+    background-color: #6D3914;
     font-family: Arial, sans-serif;
     height: 64px;
 }
@@ -56,23 +56,23 @@ main {
 }
 
 .form-container {
-    background-color: #fff8f1;
+    background-color: #EFDFC1;
     padding: 20px;
 }
 
 .form-header {
     margin-bottom: 20px;
-    border: 1px solid #9C4D50;
+    border: 2px solid #AB7843;
     border-radius: 10px;
     padding: 20px;
-    background: linear-gradient(to top, #fff 90%, #9C4D50 10%);
+    background: linear-gradient(to top, #FDF6EE 90%, #AB7843 10%);
 
 }
 
 .form-header h1 {
     font-size: 34px;
     font-weight: bold;
-    border-bottom: 2px solid #9C4D50;
+    border-bottom: 2px solid #AB7843;
     padding-bottom: 5px;
     margin-bottom: 10px;
     outline: none;
@@ -80,7 +80,7 @@ main {
 
 .form-header p {
     font-size: 24px;
-    color: #9C4D50;
+    color: black;
     outline: none;
 }
 
@@ -89,18 +89,18 @@ main {
 }
 
 .question {
-    border: 1px solid #9C4D50;
+    border: 2px solid #AB7843;
     border-radius: 10px;
     padding: 15px 15px 10px;
     margin-bottom: 15px;
-    background-color: #fff;
+    background-color: #FDF6EE;
 
 }
 
 .question-title {
     font-size: 16px;
     font-weight: bold;
-    border-bottom: 2px solid #9C4D50;
+    border-bottom: 2px solid #AB7843;
     padding-bottom: 5px;
     margin-bottom: 10px;
     color: black;
@@ -112,7 +112,7 @@ main {
     /*right: 540px;*/
     margin-left: 620px;
     border-radius: 6px;
-    border-color: #9C4D50;
+    border-color: #AB7843;
     height: 30px;
 
 }
@@ -153,11 +153,11 @@ span{
     margin-top: 10px;
     padding: 1px 0px;
     text-align: start;
-    border-bottom: 2px solid #9C4D50;
+    border-bottom: 2px solid #AB7843;
     border-top: none;
     border-left: none;
     border-right: none;
-    background-color: #fff;
+    background-color: #FDF6EE;
     color: #AD9698;
     cursor: pointer;
     width: 200px;
@@ -173,20 +173,20 @@ span{
 .copy-question {
     border: none;
     cursor: pointer;
-    background-color: #fff;
+    background-color: #FDF6EE;
 }
 
 .delete-question {
     border: none;
     cursor: pointer;
-    background-color: #fff;
+    background-color: #FDF6EE;
 
 }
 
 .add-questions {
-    border: 1px solid #9C4D50;
+    border: 2px solid #AB7843;
     border-radius: 10px;
-    background-color: #fff;
+    background-color: #FDF6EE;
     padding: 2px;
 }
 
@@ -253,8 +253,8 @@ span{
 
 .back {
     border: none;
-    color: #9C4D50;
-    background-color: #FFF7EB;
+    color: #AB7843;
+    background-color: #EFDFC1;
     cursor: pointer;
     position: absolute;
     margin-top: 79px;
@@ -278,7 +278,7 @@ span{
     border-top: none;
     border-left: none;
     border-right: none;
-    background-color: #9C4D50;
+    background-color: #6D3914;
     color: #FFF7EB;
     cursor: pointer;
     align-self: flex-end;
@@ -291,7 +291,7 @@ span{
     border-top: none;
     border-left: none;
     border-right: none;
-    background-color: #9C4D50;
+    background-color: #6D3914;
     color: #FFF7EB;
     cursor: pointer;
     align-self: flex-end;
@@ -305,7 +305,7 @@ span{
     border-top: none;
     border-left: none;
     border-right: none;
-    background-color: #9C4D50;
+    background-color: #6D3914;
     color: #FFF7EB;
     cursor: pointer;
     align-self: flex-end;

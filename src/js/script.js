@@ -99,8 +99,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 </select>
                 <div class="options">${createOptionsHTML('single', questionCount)}</div>
                 <div class="question-controls">
-                    <button class="copy-question"><img src="/static/img/copy.svg"></button>
-                    <button class="delete-question"><img src="/static/img/mycop.svg"></button>
+                    <button class="copy-question"><img src="/src/static/img/copy-2.svg"></button>
+                    <button class="delete-question"><img src="/src/static/img/mycop-2.svg"></button>
                 </div>
             </div>`;
         formQuestions.insertAdjacentHTML('beforeend', questionHTML);

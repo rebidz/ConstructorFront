@@ -6,10 +6,11 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    background-color: #EFDFC1;
 }
 
 footer {
-    background-color: #9C4D50;
+    background-color: #6D3914;
     padding: 13px 0;
     font-family: Arial, sans-serif;
     margin-top: auto;
@@ -20,7 +21,7 @@ footer {
     align-items: center;
     justify-content: space-between;
     padding: 10px 20px;
-    background-color: #9C4D50;
+    background-color: #6D3914;
     font-family: Arial, sans-serif;
 }
 
@@ -49,7 +50,7 @@ footer {
 
 .search-section {
     padding: 5px 20px;
-    background-color: #FFF7EB;
+    background-color: #D7BDA6;
     display: grid;
     grid-template-columns: repeat(6, 0fr);
     gap: 60px;
@@ -66,7 +67,7 @@ footer {
 
 .search-bar {
     display: grid;
-    border: 2px solid #9C4D50;
+    border: 2px solid #4C2B08;
     width: 150px;
     height: 150px;
     background-color: #fff;
@@ -81,7 +82,7 @@ footer {
 .search-bar-1 {
     margin-left: 325px;
     display: grid;
-    border: 2px solid #9C4D50;
+    border: 2px solid #4C2B08;
     width: 150px;
     height: 150px;
     background-color: #fff;
@@ -93,16 +94,17 @@ footer {
     cursor: pointer;
 }
 
-.search-bar img {
+/*.search-bar img {
     width: 50px;
     height: 50px;
-}
+}*/
 
 .vacancies {
     display: grid;
     grid-template-columns: repeat(6, 0fr);
     gap: 60px;
     padding: 10px 345px 40px 345px;
+    height: 100%;
 
 }
 
@@ -113,11 +115,10 @@ footer {
     margin-bottom: 0px;
 }
 
-/* Общие стили карточки */
 .card {
     width: 150px;
     height: 200px;
-    border: 2px solid #9C4D50;
+    border: 2px solid #4C2B08;
     border-radius: 8px;
     display: flex;
     flex-direction: column;
@@ -127,16 +128,14 @@ footer {
     cursor: pointer;
 }
 
-/* Секция изображения */
 .card-image {
     flex: 1;
     background-color: #f0f0f0; /* Заглушка для отсутствующего изображения */
 }
 
-/* Секция контента */
 .card-content {
     padding: 8px;
-    background-color: #fff7eb;
+    background-color: #FDF6EE;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -144,12 +143,11 @@ footer {
     position: relative;
     border-bottom: none;
     border-radius: 2px;
-    border-top: 2px solid #9C4D50;
+    border-top: 2px solid #4C2B08;
     border-left: none;
     border-right: none;
 }
 
-/* Название */
 .card-title {
     font-size: 14px;
     font-weight: bold;
@@ -159,13 +157,11 @@ footer {
     white-space: nowrap;
 }
 
-/* Дата */
 .card-date {
     font-size: 12px;
     color: #888;
 }
 
-/* Кнопка удаления */
 .card-delete {
     position: absolute;
     top: 8px;
@@ -173,7 +169,7 @@ footer {
     background: none;
     border: none;
     font-size: 16px;
-    color: #e74c3c;
+    color: #4C2B08;
     cursor: pointer;
 }
 

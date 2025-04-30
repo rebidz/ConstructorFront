@@ -16,7 +16,7 @@ body {
 
 h1 {
     font-size: 24px;
-    color: #333333;
+    color: #4C2B08;
     margin-bottom: 20px;
 }
 
@@ -37,17 +37,17 @@ p a:hover {
 
 .container {
     display: flex;
-    width: 1920px;
-    height: 1080px;
+    width: 100%;
+    height: 100%;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .left-side {
-    flex: 1;
-    background-color: #D38779;
+    background-color: #D7BDA6;
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 60%;
 }
 
 .logo {
@@ -69,30 +69,31 @@ p a:hover {
 }
 
 .right-side {
-    flex: 1;
     background-color: #ffffff;
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 40%;
 }
 
 .register-form {
     width: 80%;
-    max-width: 300px;
+    max-width: 350px;
     text-align: center;
 }
 
 .input-group {
-    margin-bottom: 15px;
+    margin-bottom: 18px;
     position: relative;
 }
 
 .input-group input {
     width: 100%;
     padding: 10px;
-    border: 1px solid #b35c51;
-    border-radius: 5px;
+    border: 2px solid #6D3914;
+    border-radius: 10px;
     font-size: 14px;
+    height: 45px;
 }
 
 .password-group .eye-icon {
@@ -129,17 +130,17 @@ p a:hover {
 .submit{
     width: 100%;
     padding: 10px;
-    background-color: #b35c51;
+    background-color: #6D3914;
     color: #ffffff;
     border: none;
-    border-radius: 5px;
+    border-radius: 10px;
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s;
-
+    height: 40px;
 }
 
 .submit:hover {
-    background-color: #a04a43;
+    background-color: #AB7843;
 }
 
