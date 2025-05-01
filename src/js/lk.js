@@ -1,122 +1,33 @@
-// document.addEventListener('DOMContentLoaded', () => {
-//     const deleteBtn = document.getElementById('deleteAccount');
-//     const logoutBtn = document.getElementById('logout');
-//
-//     deleteBtn.addEventListener('click', async () => {
-//         if (!confirm('Вы уверены, что хотите удалить аккаунт? Это действие необратимо.')) return;
-//
-//         try {
-//             const response = await fetch('**********', {
-//                 method: 'DELETE',
-//                 credentials: 'include',
-//                 headers: {
-//                     'Content-Type': 'application/json'
-//                 }
-//             });
-//
-//             if (response.ok) {
-//                 alert('Аккаунт успешно удалён.');
-//                 window.location.href = 'login.html';
-//             } else {
-//                 const errorData = await response.json();
-//                 alert('Ошибка при удалении аккаунта: ' + (errorData.message || response.statusText));
-//             }
-//         } catch (error) {
-//             alert('Ошибка сети: ' + error.message);
-//         }
-//     });
-//
-//     logoutBtn.addEventListener('click', async () => {
-//         try {
-//             const response = await fetch('*********', {
-//                 method: 'POST',
-//                 credentials: 'include',
-//                 headers: {
-//                     'Content-Type': 'application/json'
-//                 }
-//             });
-//
-//             if (response.ok) {
-//                 alert('Вы вышли из аккаунта.');
-//                 window.location.href = '/login.html';
-//             } else {
-//                 alert('Ошибка при выходе из аккаунта.');
-//             }
-//         } catch (error) {
-//             alert('Ошибка сети: ' + error.message);
-//         }
-//     });
-// });
+function getCookie(name) {
+    const cookies = document.cookie.split(';');
+    for (let cookie of cookies) {
+        const [cookieName, cookieValue] = cookie.trim().split('=');
+        if (cookieName === name) {
+            return cookieValue;
+        }
+    }
+    return null;
+}
 
-// function getJwtTokenFromCookies() {
-//   const cookies = document.cookie.split('; ');
-//   console.log(cookies)
-//   for (const cookie of cookies) {
-//     // Правильное разделение имени и значения
-//     const separatorIndex = cookie.indexOf('=');
-//     if (separatorIndex === -1) continue;
-//
-//     const name = cookie.substring(0, separatorIndex).trim();
-//     const value = cookie.substring(separatorIndex + 1).trim();
-//     console.log(value);
-//     if (name === 'token') {
-//       return decodeURIComponent(value); // Декодируем URI-компоненты
-//     }
-//   }
-//   return null;
-// }
-// function decodeJwtToken(token) {
-//   try {
-//     // JWT состоит из 3 частей, разделенных точками: header.payload.signature
-//     const base64Url = token.split('.')[1];
-//
-//     // Заменяем символы, специфичные для base64url
-//     const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-//
-//     // Декодируем base64
-//     const jsonPayload = decodeURIComponent(
-//       atob(base64)
-//         .split('')
-//         .map(c => '%' + ('00' + c.charCodeAt(0).toString(16).slice(-2))
-//         .join('')
-//     ));
-//
-//     return JSON.parse(jsonPayload);
-//   } catch (error) {
-//     console.error('Ошибка декодирования JWT:', error);
-//     return null;
-//   }
-// }
-//
-// function getUserIdFromJwt() {
-//   // 1. Получаем токен из куки
-//   const token = getJwtTokenFromCookies();
-//   if (!token) {
-//     console.error('JWT токен не найден в куках');
-//     return null;
-//   }
-//
-//   // 2. Декодируем токен
-//   const decodedToken = decodeJwtToken(token);
-//   if (!decodedToken) {
-//     console.error('Не удалось декодировать JWT токен');
-//     return null;
-//   }
-//
-//   // 3. Извлекаем user_id
-//   const userId = decodedToken.id; // В вашем примере это поле "id"
-//   if (!userId) {
-//     console.error('Поле id не найдено в JWT токене');
-//     return null;
-//   }
-//
-//   return userId;
-// }
+function getUserIdFromToken(token) {
+    if (!token) return null;
+
+    try {
+        const payloadBase64 = token.split('.')[1];
+        const payloadJson = atob(payloadBase64.replace(/-/g, '+').replace(/_/g, '/'));
+        const payload = JSON.parse(payloadJson);
+        return payload.id || payload.sub || null;
+    } catch (error) {
+        console.error("Ошибка при декодировании токена:", error);
+        return null;
+    }
+}
 
 
 document.addEventListener('DOMContentLoaded', () => {
     const deleteBtn = document.getElementById('deleteAccount');
-    const userId = 'defd7a5a-4f70-4970-9db5-19d7580d8e8b';
+    const token = getCookie('token');
+    const userId = getUserIdFromToken(token);
     if (deleteBtn) {
         deleteBtn.addEventListener('click', async () => {
             if (!confirm('Вы уверены, что хотите удалить аккаунт? Это действие необратимо.')) return;
@@ -167,8 +78,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (form) {
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
+            // ДОДЕЛАТЬ ПОЛУЧЕНИЕ ДАННЫХ ПОЛЬЗОВАТЕЛЯ
+            const firstName = document.getElementById('firstName').value.trim();
+            const lastName = document.getElementById('firstName').value.trim();
 
-            const fullName = document.getElementById('firstName').value.trim();
             const email = document.getElementById('email').value.trim();
             const password = document.getElementById('password').value;
             const confirmPassword = document.getElementById('confirmPassword').value;
@@ -183,7 +96,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     method: 'PUT',
                     credentials: 'include',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ fullName, email, password })
+                    body: JSON.stringify({
+                        email: email,
+                        first_name: firstName,
+                        last_name: lastName,
+                        password: password })
                 });
 
                 if (response.ok) {
@@ -199,4 +116,3 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
-
