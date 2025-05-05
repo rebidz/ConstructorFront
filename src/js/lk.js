@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             // ДОДЕЛАТЬ ПОЛУЧЕНИЕ ДАННЫХ ПОЛЬЗОВАТЕЛЯ
             const firstName = document.getElementById('firstName').value.trim();
-            const lastName = document.getElementById('firstName').value.trim();
+            const lastName = document.getElementById('lastName').value.trim();
 
             const email = document.getElementById('email').value.trim();
             const password = document.getElementById('password').value;

@@ -4,10 +4,40 @@ document.addEventListener('DOMContentLoaded', async () => {
     const formQuestions = document.getElementById('form-questions');
     const addQuestionButton = document.getElementById('add-question');
 
+    let testDuration = { hours: 0, minutes: 30 }; // Значение по умолчанию
+
+    document.getElementById('set-timer').addEventListener('click', () => {
+        const hours = parseInt(document.getElementById('test-hours').value) || 0;
+        const minutes = parseInt(document.getElementById('test-minutes').value) || 0;
+
+        testDuration = { hours, minutes };
+        alert(`Время на тест установлено: ${hours} часов и ${minutes} минут`);
+    });
+
+    // function startTest() {
+    //     const totalTimeInMinutes = testDuration.hours * 60 + testDuration.minutes;
+    //     console.log(`Тест начнется с временем: ${totalTimeInMinutes} минут`);
+    //
+    //     // Здесь можно добавить логику для отсчета времени
+    // }
+
     const createOptionsHTML = (type, questionId) => {
         if (type === 'text') {
             return `<div class="text-answer-container">
                       <textarea class="text-answer" placeholder="Введите развернутый ответ"></textarea>
+                    </div>`;
+        }
+        if (type === 'matching') {
+            return `<div class="matching-container">
+                      <div class="card-pair">
+                        <input type="text" placeholder="1" />
+                        <input type="text" placeholder="1" />
+                      </div>
+                      <div class="card-pair">
+                        <input type="text" placeholder="2" />
+                        <input type="text" placeholder="2" />
+                      </div>
+                      <button class="add-card-pair-btn">Добавить пару карточек</button>
                     </div>`;
         }
         const inputType = type === 'single' ? 'radio' : 'checkbox';
@@ -51,12 +81,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     const initializeQuestionControls = (question) => {
         const selectType = question.querySelector('.question-type');
         const optionsContainer = question.querySelector('.options');
+        const scoreInput = question.querySelector('.score-input'); // Добавлено
         const questionId = question.dataset.questionId || questionCount;
 
         selectType.addEventListener('change', () => {
             const type = selectType.value;
             optionsContainer.innerHTML = createOptionsHTML(type, questionId);
             attachAddOptionEvent(type, optionsContainer, questionId);
+            if (type === 'matching') {
+                // Логика для добавления пар карточек
+                attachAddCardPairEvent(optionsContainer);
+            }
         });
 
         question.querySelector('.delete-question').addEventListener('click', () => question.remove());
@@ -73,6 +108,21 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
 
         attachAddOptionEvent(selectType.value, optionsContainer, questionId);
+    };
+
+    // Функция для добавления пар карточек
+    const attachAddCardPairEvent = (container) => {
+      const addCardPairButton = container.querySelector('.add-card-pair-btn');
+      if (addCardPairButton) {
+          addCardPairButton.addEventListener('click', () => {
+              const cardPairDiv = document.createElement('div');
+              cardPairDiv.className = 'card-pair';
+              cardPairDiv.innerHTML = `
+                  <input type='text' placeholder='Карточка' />
+                  <input type='text' placeholder='Соответствующая карточка' />`;
+              container.insertBefore(cardPairDiv, addCardPairButton);
+          });
+      }
     };
 
     async function getTestData() {
@@ -200,9 +250,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                     <option value="single">Один вариант ответа</option>
                     <option value="multiple">Несколько вариантов ответа</option>
                     <option value="text">Развернутый ответ</option>
+                    <option value="matching">Соотнесение карточек</option> <!-- Новый тип вопроса -->
                 </select>
                 <div class="options">${createOptionsHTML('single', questionCount)}</div>
                 <div class="question-controls">
+                    <input type='number' class='score-input' placeholder="Вес вопроса" />
                     <button class="copy-question"><img src="/src/static/img/copy-2.svg"></button>
                     <button class="delete-question"><img src="/src/static/img/mycop-2.svg"></button>
                 </div>
@@ -394,3 +446,41 @@ document.addEventListener('DOMContentLoaded', async () => {
         alert("Ошибка при загрузке страницы");
     });
 });
+
+
+
+//      async function renderTests(testData) {
+//       test_data = testData; // Сохраняем данные теста
+//
+//       testData.questions.forEach(question => {
+//           questionCount++;
+//           const questionElement = document.createElement('div');
+//           questionElement.className = 'question';
+//           questionElement.dataset.questionId = questionCount;
+//
+//           // Добавление HTML для вопроса
+//           questionElement.innerHTML = `
+//               <div class="question-title" contenteditable="true">${question.title || "Новый вопрос"}</div>
+//               <select class="question-type">
+//                   <option value="single"${question.type === 'single' ? ' selected' : ''}>Один вариант ответа</option>
+//                   <option value="multiple"${question.type === 'multiple' ? ' selected' : ''}>Несколько вариантов ответа</option>
+//                   <option value="text"${question.type === 'text' ? ' selected' : ''}>Развернутый ответ</option>
+//                   <option value="matching"${question.type === 'matching' ? ' selected' : ''}>Соотнесение карточек</option> <!-- Новый тип вопроса -->
+//               </select>
+//               <div class="options">${createOptionsHTML(question.type || 'single', questionCount)}</div>
+//
+//               <!-- Поле для ввода баллов -->
+//               <div class='score-input-container'>
+//                   <label>Баллы за правильный ответ:</label>
+//                   <input type='number' min='0' value='${question.score || 0}' class='score-input' />
+//               </div>
+//
+//               <div class="question-controls">
+//                   <button class="copy-question"><img src="/src/static/img/copy-2.svg"></button>
+//                   <button class="delete-question"><img src="/src/static/img/mycop-2.svg"></button>
+//               </div>`;
+//
+//           formQuestions.appendChild(questionElement);
+//           initializeQuestionControls(questionElement);
+//       });
+//     }

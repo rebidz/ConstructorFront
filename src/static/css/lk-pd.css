@@ -127,6 +127,7 @@ main {
     display: flex;
     flex-direction: column;
     gap: 20px;
+
 }
 
 .input-group-2 p {
