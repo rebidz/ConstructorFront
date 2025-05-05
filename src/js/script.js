@@ -215,6 +215,12 @@ document.addEventListener('DOMContentLoaded', async () => {
             deleteButton.className = 'delete-question';
             deleteButton.innerHTML = '<img src="/src/static/img/mycop.svg" alt="Удалить вопрос">';
 
+            const score = document.createElement('input');
+            score.className = 'score-input';
+            score.type = 'number';
+            score.placeholder = 'Вес вопроса'
+
+            questionControls.appendChild(score);
             questionControls.appendChild(copyButton);
             questionControls.appendChild(deleteButton);
 

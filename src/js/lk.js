@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             try {
                 const response = await fetch(`http://127.0.0.1:8000/users/update_user/${userId}`, {
-                    method: 'PUT',
+                    method: 'PATCH',
                     credentials: 'include',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
