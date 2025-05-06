@@ -144,6 +144,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
+    // !!!
+    // MAKSIM ТУТ ОТОБРАЖЕНИЕ СОХРАНЕННЫХ ТЕСТОВ!!!
+    // !!!
     async function renderTests(testData) {
         const questionContainer = document.querySelector("#form-questions");
         questionContainer.innerHTML = "";
@@ -269,73 +272,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         initializeQuestionControls(formQuestions.lastElementChild);
     };
 
-    function getJwtTokenFromCookies() {
-      const cookieString = document.cookie;
-      const cookies = cookieString.split('; ');
-
-      for (const cookie of cookies) {
-        const [name, value] = cookie.split('=');
-        if (name === 'access_token' || name === 'jwt' || name === 'token') { // Подставьте правильное имя вашей куки
-          return value;
-        }
-      }
-      return null;
-    }
-
-    function decodeJwtToken(token) {
-      try {
-        // JWT состоит из 3 частей, разделенных точками: header.payload.signature
-        const base64Url = token.split('.')[1];
-
-        // Заменяем символы, специфичные для base64url
-        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-
-        // Декодируем base64
-        const jsonPayload = decodeURIComponent(
-          atob(base64)
-            .split('')
-            .map(c => '%' + ('00' + c.charCodeAt(0).toString(16).slice(-2))
-            .join('')
-        ));
-
-        return JSON.parse(jsonPayload);
-      } catch (error) {
-        console.error('Ошибка декодирования JWT:', error);
-        return null;
-      }
-    }
-
-    function getUserIdFromJwt() {
-      // 1. Получаем токен из куки
-      const token = getJwtTokenFromCookies();
-      if (!token) {
-        console.error('JWT токен не найден в куках');
-        return null;
-      }
-
-      // 2. Декодируем токен
-      const decodedToken = decodeJwtToken(token);
-      if (!decodedToken) {
-        console.error('Не удалось декодировать JWT токен');
-        return null;
-      }
-
-      // 3. Извлекаем user_id
-      const userId = decodedToken.id; // В вашем примере это поле "id"
-      if (!userId) {
-        console.error('Поле id не найдено в JWT токене');
-        return null;
-      }
-
-      return userId;
-    }
-
-
     const saveTest = () => {
         const testTitle = document.querySelector('.form-header h1').textContent.trim();
         const testDescription = document.querySelector('.form-header p').textContent.trim();
+        const duration = 0 // получить время прохождения теста
         const questions = Array.from(document.querySelectorAll('.question')).map(question => {
-            const scores = 10;
+            const scores = 10; // получить вес вопроса
             const title = question.querySelector('.question-title').textContent.trim();
             const questionType = question.querySelector('.question-type').value;
             let options = [];
@@ -387,7 +329,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             title: testTitle,
             description: testDescription,
             questions: questions,
-            duration: "14:18:03",
+            duration: "14:18:03", // вписать duration
             passing_score: 20,
             user_id: userId
 
@@ -452,41 +394,3 @@ document.addEventListener('DOMContentLoaded', async () => {
         alert("Ошибка при загрузке страницы");
     });
 });
-
-
-
-//      async function renderTests(testData) {
-//       test_data = testData; // Сохраняем данные теста
-//
-//       testData.questions.forEach(question => {
-//           questionCount++;
-//           const questionElement = document.createElement('div');
-//           questionElement.className = 'question';
-//           questionElement.dataset.questionId = questionCount;
-//
-//           // Добавление HTML для вопроса
-//           questionElement.innerHTML = `
-//               <div class="question-title" contenteditable="true">${question.title || "Новый вопрос"}</div>
-//               <select class="question-type">
-//                   <option value="single"${question.type === 'single' ? ' selected' : ''}>Один вариант ответа</option>
-//                   <option value="multiple"${question.type === 'multiple' ? ' selected' : ''}>Несколько вариантов ответа</option>
-//                   <option value="text"${question.type === 'text' ? ' selected' : ''}>Развернутый ответ</option>
-//                   <option value="matching"${question.type === 'matching' ? ' selected' : ''}>Соотнесение карточек</option> <!-- Новый тип вопроса -->
-//               </select>
-//               <div class="options">${createOptionsHTML(question.type || 'single', questionCount)}</div>
-//
-//               <!-- Поле для ввода баллов -->
-//               <div class='score-input-container'>
-//                   <label>Баллы за правильный ответ:</label>
-//                   <input type='number' min='0' value='${question.score || 0}' class='score-input' />
-//               </div>
-//
-//               <div class="question-controls">
-//                   <button class="copy-question"><img src="/src/static/img/copy-2.svg"></button>
-//                   <button class="delete-question"><img src="/src/static/img/mycop-2.svg"></button>
-//               </div>`;
-//
-//           formQuestions.appendChild(questionElement);
-//           initializeQuestionControls(questionElement);
-//       });
-//     }

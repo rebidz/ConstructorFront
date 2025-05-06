@@ -16,7 +16,8 @@ function getUserIdFromToken(token) {
         const payloadBase64 = token.split('.')[1];
         const payloadJson = atob(payloadBase64.replace(/-/g, '+').replace(/_/g, '/'));
         const payload = JSON.parse(payloadJson);
-        return payload.id || payload.sub || null;
+        // return payload;
+        return payload.id || payload.sub || null; // payload.last_name, payload.first_name, payload.email
     } catch (error) {
         console.error("Ошибка при декодировании токена:", error);
         return null;
@@ -26,8 +27,14 @@ function getUserIdFromToken(token) {
 
 document.addEventListener('DOMContentLoaded', () => {
     const deleteBtn = document.getElementById('deleteAccount');
+    // eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImRlZmQ3YTVhLTRmNzAtNDk3MC05ZGI1LTE5ZDc1ODBkOGU4YiIsInVzZXJuYW1lIjoiZGVmYXJpbzc3N0BtYWlsLnJ1IiwiZW1haWwiOiJkZWZhcmlvNzc3QG1haWwucnUiLCJmaXJzdF9uYW1lIjoiZmZmIiwibGFzdF9uYW1lIjoiZ2ZnZmciLCJleHAiOjE3NDY1NDM2MzEsImlhdCI6MTc0NjU0MTgzMX0._MtOUlEmD5V6Dur1U-pWmfrL2dl7L6ANtnA1Ptz7tm8
     const token = getCookie('token');
     const userId = getUserIdFromToken(token);
+    // const data = allDataFromToken();
+    // const userId = data.id;
+    // const firstName = data.first_name;
+    // const lastName = data.last_name;
+    // const email = data.email;
     if (deleteBtn) {
         deleteBtn.addEventListener('click', async () => {
             if (!confirm('Вы уверены, что хотите удалить аккаунт? Это действие необратимо.')) return;
