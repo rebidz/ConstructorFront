@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const formQuestions = document.getElementById('form-questions');
     const addQuestionButton = document.getElementById('add-question');
 
-    let testDuration = { hours: 0, minutes: 30 }; // Значение по умолчанию
+    let testDuration = { hours: "0", minutes: "0" }; // Значение по умолчанию
 
     document.getElementById('set-timer').addEventListener('click', () => {
         const hours = parseInt(document.getElementById('test-hours').value) || 0;
@@ -275,7 +275,24 @@ document.addEventListener('DOMContentLoaded', async () => {
     const saveTest = () => {
         const testTitle = document.querySelector('.form-header h1').textContent.trim();
         const testDescription = document.querySelector('.form-header p').textContent.trim();
-        const duration = 0 // получить время прохождения теста
+        let hoursDuration = testDuration.hours;
+        let minutesDuration = testDuration.minutes;
+        console.log(hoursDuration);
+        console.log(minutesDuration);
+        console.log();
+        let duration;
+        const timer = document.querySelector('.timer');
+        console.log(testDuration);
+        if (hoursDuration.length === 1) {
+            duration = "0" + (hoursDuration + ":");
+        } else {
+            duration = hoursDuration + ":";
+        }
+        if (minutesDuration.length === 1) {
+            duration += "0" + minutesDuration + ":00";
+        } else {
+            duration += minutesDuration + ":00";
+        }
         const questions = Array.from(document.querySelectorAll('.question')).map(question => {
             const scores = 10; // получить вес вопроса
             const title = question.querySelector('.question-title').textContent.trim();
@@ -286,7 +303,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (questionType === 'text') {
                 // Для текстового ответа сохраняем развернутый текст
                 answerText = question.querySelector('.text-answer')?.value?.trim() || '';
-                options = [answerText]
+                options = [{"text": answerText.toLowerCase(), "is_correct": true}]
             } else {
                 // Для обычных вариантов ответа собираем данные
                 options = Array.from(question.querySelectorAll('.option')).map(option => ({
@@ -329,7 +346,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             title: testTitle,
             description: testDescription,
             questions: questions,
-            duration: "14:18:03", // вписать duration
+            // duration: "14:18:03", // вписать duration
+            duration: duration,
             passing_score: 20,
             user_id: userId
 
