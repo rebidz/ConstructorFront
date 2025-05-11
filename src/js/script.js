@@ -278,14 +278,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     const saveTest = () => {
         const testTitle = document.querySelector('.form-header h1').textContent.trim();
         const testDescription = document.querySelector('.form-header p').textContent.trim();
-        const hoursDuration = testDuration.hours;
-        const minutesDuration = testDuration.minutes;
-        let duration = hoursDuration.length === 1 ? hoursDuration + ":" : "0" + (hoursDuration + ":");
-        duration += minutesDuration.length === 1 ? minutesDuration + ":00" : "0" + (minutesDuration + ":00");
-        const scr = Array.from(document.querySelectorAll('.score-input')).map(sc => {
-            console.log(sc.textContent)
-        });
-        console.log(scr);
+        const hoursDuration = testDuration.hours.toString();
+        const minutesDuration = testDuration.minutes.toString();
+        console.log(minutesDuration.length);
+        let duration = hoursDuration.length === 1 ? "0" + (hoursDuration + ":") : hoursDuration + ":";
+        duration += minutesDuration.length === 1 ? "0" + (minutesDuration + ":00") : minutesDuration + ":00";
         const questions = Array.from(document.querySelectorAll('.question')).map(question => {
             const scores = 10; // получить вес вопроса
             const title = question.querySelector('.question-title').textContent.trim();
