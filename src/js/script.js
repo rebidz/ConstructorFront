@@ -9,7 +9,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('set-timer').addEventListener('click', () => {
         const hours = parseInt(document.getElementById('test-hours').value) || 0;
         const minutes = parseInt(document.getElementById('test-minutes').value) || 0;
-
+        if (hours === 0 && minutes === 0) { // ДОБАВИТЬ ЧЕКБОКС "ОРГАНИЧИТЬ ВРЕМЯ ПРОХОЖДЕНИЯ ТЕСТА" И СДЕЛАТЬ ПРОВЕРКУ
+            alert(`Установите время прохождения теста`);
+            return;
+        }
         testDuration = { hours, minutes };
         alert(`Время на тест установлено: ${hours} часов и ${minutes} минут`);
     });
@@ -275,24 +278,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     const saveTest = () => {
         const testTitle = document.querySelector('.form-header h1').textContent.trim();
         const testDescription = document.querySelector('.form-header p').textContent.trim();
-        let hoursDuration = testDuration.hours;
-        let minutesDuration = testDuration.minutes;
-        console.log(hoursDuration);
-        console.log(minutesDuration);
-        console.log();
-        let duration;
-        const timer = document.querySelector('.timer');
-        console.log(testDuration);
-        if (hoursDuration.length === 1) {
-            duration = "0" + (hoursDuration + ":");
-        } else {
-            duration = hoursDuration + ":";
-        }
-        if (minutesDuration.length === 1) {
-            duration += "0" + minutesDuration + ":00";
-        } else {
-            duration += minutesDuration + ":00";
-        }
+        const hoursDuration = testDuration.hours;
+        const minutesDuration = testDuration.minutes;
+        let duration = hoursDuration.length === 1 ? hoursDuration + ":" : "0" + (hoursDuration + ":");
+        duration += minutesDuration.length === 1 ? minutesDuration + ":00" : "0" + (minutesDuration + ":00");
+        const scr = Array.from(document.querySelectorAll('.score-input')).map(sc => {
+            console.log(sc.textContent)
+        });
+        console.log(scr);
         const questions = Array.from(document.querySelectorAll('.question')).map(question => {
             const scores = 10; // получить вес вопроса
             const title = question.querySelector('.question-title').textContent.trim();
@@ -346,11 +339,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             title: testTitle,
             description: testDescription,
             questions: questions,
-            // duration: "14:18:03", // вписать duration
             duration: duration,
             passing_score: 20,
             user_id: userId
-
         };
 
         let testId = null;
