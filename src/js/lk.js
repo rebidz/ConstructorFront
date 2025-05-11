@@ -9,15 +9,15 @@ function getCookie(name) {
     return null;
 }
 
-function getUserIdFromToken(token) {
+
+function getAllUserDataFromToken(token) {
     if (!token) return null;
 
     try {
         const payloadBase64 = token.split('.')[1];
         const payloadJson = atob(payloadBase64.replace(/-/g, '+').replace(/_/g, '/'));
         const payload = JSON.parse(payloadJson);
-        // return payload;
-        return payload.id || payload.sub || null; // payload.last_name, payload.first_name, payload.email
+        return payload;
     } catch (error) {
         console.error("Ошибка при декодировании токена:", error);
         return null;
@@ -25,16 +25,54 @@ function getUserIdFromToken(token) {
 }
 
 
+async function fetchUserData() {
+    try {
+        const response = await fetch("http://127.0.0.1:8000/users/me", {
+            method: "GET",
+            credentials: "include",
+            headers: {
+              "Accept": "application/json"
+            }
+        });
+        if (!response.ok) {
+            throw new Error("Ошибка при получении данных пользователя");
+        }
+        const userData = response.json();
+        return userData;
+    } catch (error) {
+        console.error("Ошибка:", error);
+    }
+}
+
+
 document.addEventListener('DOMContentLoaded', () => {
     const deleteBtn = document.getElementById('deleteAccount');
-    // eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImRlZmQ3YTVhLTRmNzAtNDk3MC05ZGI1LTE5ZDc1ODBkOGU4YiIsInVzZXJuYW1lIjoiZGVmYXJpbzc3N0BtYWlsLnJ1IiwiZW1haWwiOiJkZWZhcmlvNzc3QG1haWwucnUiLCJmaXJzdF9uYW1lIjoiZmZmIiwibGFzdF9uYW1lIjoiZ2ZnZmciLCJleHAiOjE3NDY1NDM2MzEsImlhdCI6MTc0NjU0MTgzMX0._MtOUlEmD5V6Dur1U-pWmfrL2dl7L6ANtnA1Ptz7tm8
     const token = getCookie('token');
-    const userId = getUserIdFromToken(token);
-    // const data = allDataFromToken();
-    // const userId = data.id;
-    // const firstName = data.first_name;
-    // const lastName = data.last_name;
-    // const email = data.email;
+    // const userData = getAllUserDataFromToken(token);
+    const userData = fetchUserData();
+    let userId;
+    let firstName;
+    let lastName;
+    let email;
+    userData.then(res => {
+        userId = res.id;
+        firstName = res.first_name;
+        lastName = res.last_name;
+        email = res.email;
+        if (document.querySelector('.name')) {
+            const nameHTML = document.querySelector('.name');
+            nameHTML.textContent = lastName + ' ' + firstName;
+            const emailHTML = document.querySelector('.email')
+            emailHTML.textContent = email;
+
+        } else {
+            const nameHTML = document.querySelector('.avatar-p-1');
+            nameHTML.textContent = lastName + ' ' + firstName;
+            const emailHTML = document.querySelector('.avatar-p-2')
+            emailHTML.textContent = email;
+        }
+    })
+
     if (deleteBtn) {
         deleteBtn.addEventListener('click', async () => {
             if (!confirm('Вы уверены, что хотите удалить аккаунт? Это действие необратимо.')) return;
@@ -85,7 +123,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (form) {
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
-            // ДОДЕЛАТЬ ПОЛУЧЕНИЕ ДАННЫХ ПОЛЬЗОВАТЕЛЯ
             const firstName = document.getElementById('firstName').value.trim();
             const lastName = document.getElementById('lastName').value.trim();
 
