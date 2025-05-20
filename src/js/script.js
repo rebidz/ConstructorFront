@@ -46,19 +46,19 @@ document.addEventListener('DOMContentLoaded', async () => {
         const inputType = type === 'single' ? 'radio' : 'checkbox';
         return `<div class="option">
                   <input type="${inputType}" name="correct-answer-${questionId}" class="correct-answer" />
-                  <span contenteditable="true">Вариант ответа 1</span>
+                  <span contenteditable="true">Вариант ответа 1</span><button class="cross-but"><img class="cross" src="/src/static/img/cross.svg" ></button>
                 </div>
                 <div class="option">
                   <input type="${inputType}" name="correct-answer-${questionId}" class="correct-answer" />
-                  <span contenteditable="true">Вариант ответа 2</span>
+                  <span contenteditable="true">Вариант ответа 2</span><button class="cross-but"><img class="cross" src="/src/static/img/cross.svg" ></button>
                 </div>
                 <div class="option">
                   <input type="${inputType}" name="correct-answer-${questionId}" class="correct-answer" />
-                  <span contenteditable="true">Вариант ответа 3</span>
+                  <span contenteditable="true">Вариант ответа 3</span><button class="cross-but"><img class="cross" src="/src/static/img/cross.svg" ></button>
                 </div>
                 <div class="option">
                   <input type="${inputType}" name="correct-answer-${questionId}" class="correct-answer" />
-                  <span contenteditable="true">Вариант ответа 4</span>
+                  <span contenteditable="true">Вариант ответа 4</span><button class="cross-but"><img class="cross" src="/src/static/img/cross.svg" ></button>
                 </div>
                 <button class="add-option-btn">Добавить вариант ответа</button>`;
     };
@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         newOption.className = 'option';
         newOption.innerHTML = `
             <input type="${inputType}" name="correct-answer-${questionId}" class="correct-answer" />
-            <span contenteditable="true">Новый вариант ответа</span>`;
+            <span contenteditable="true">Новый вариант ответа</span><button class="cross-but"><img class="cross" src="/src/static/img/cross.svg" ></button>`;
         container.insertBefore(newOption, container.querySelector('.add-option-btn'));
         newOption.querySelector('span').focus();
     };
@@ -81,10 +81,20 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     };
 
+    document.addEventListener('click', function(event) {
+        if (event.target.closest('.cross-but')) {
+            const button = event.target.closest('.cross-but');
+            const optionDiv = button.closest('.option');
+            if (optionDiv) {
+                optionDiv.remove();
+            }
+        }
+    });
+
     const initializeQuestionControls = (question) => {
         const selectType = question.querySelector('.question-type');
         const optionsContainer = question.querySelector('.options');
-        const scoreInput = question.querySelector('.score-input'); // Добавлено
+        const scoreInput = question.querySelector('.score-input');
         const questionId = question.dataset.questionId || questionCount;
 
         selectType.addEventListener('change', () => {
