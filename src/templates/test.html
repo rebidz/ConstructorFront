@@ -9,9 +9,6 @@
     </head>
     <body>
         <script src="/src/js/openTest.js"></script>
-        <script>
-            // const test_data = {{ test_data|safe }};
-        </script>
         <header class = "header">
             <div class="header-logo">
                 <img class="header-logo-img" src="/src/static/img/logo-2.png" alt="Logo">
@@ -24,10 +21,15 @@
             </div>
         </header>
         <main>
+            <div class="timer" id="test-timer">
+                <input type="number" class="timer-hours" id="test-hours" placeholder="Часы">
+                <input type="number" class="timer-min" id="test-minutes" min="0" max="59" placeholder="Минуты">
+                <button class="timer-button" id="set-timer">Установить время</button>
+            </div>
             <section class="form-container">
                 <div class="form-header">
-                    <h1 id="test-title">{{ test_data.title }}</h1>
-                    <p id="test-description">{{ test_data.description }}</p>
+                    <h1 id="test-title"></h1>
+                    <p id="test-description"></p>
                 </div>
                 <div id="form-questions" class="form-questions">
                 </div>
