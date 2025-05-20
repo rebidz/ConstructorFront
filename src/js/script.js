@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     let questionCount = 0;
     const formQuestions = document.getElementById('form-questions');
     const addQuestionButton = document.getElementById('add-question');
+    const linkButton = document.getElementById('linkButton');
 
     let testDuration = { hours: "0", minutes: "0" }; // Значение по умолчанию
 
@@ -16,13 +17,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         testDuration = { hours, minutes };
         alert(`Время на тест установлено: ${hours} часов и ${minutes} минут`);
     });
-
-    // function startTest() {
-    //     const totalTimeInMinutes = testDuration.hours * 60 + testDuration.minutes;
-    //     console.log(`Тест начнется с временем: ${totalTimeInMinutes} минут`);
-    //
-    //     // Здесь можно добавить логику для отсчета времени
-    // }
 
     const createOptionsHTML = (type, questionId) => {
         if (type === 'text') {
@@ -247,6 +241,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             questionContainer.appendChild(questionElement);
             initializeQuestionControls(questionElement);
+            linkButton.innerHTML = `<a href="#">http://127.0.0.1:63342/UserData.html?test_id=${testData.id}</a>`;
         });
     }
 
@@ -397,11 +392,18 @@ document.addEventListener('DOMContentLoaded', async () => {
         return cookieValue || '';
     };
 
+    const addEventOnLinkButton = () => {
+        const testId = test_data.id;
+        window.location.href = `UserData.html?test_id=${testId}`;
+    }
+
     async function init() {
         await getTestData();
         if (test_data) await loadTest(test_data);
 
         addQuestionButton.addEventListener('click', addQuestion);
+        linkButton.addEventListener('click', addEventOnLinkButton);
+
         document.querySelector('.hc-button').addEventListener('click', saveTest);
     }
 

@@ -10,13 +10,6 @@
     </head>
     <body>
         <script type="module" src="/src/js/script.js"></script>
-        <script>
-            // const test_data = {{ test_data|safe }};
-            function publishAndRedirect() {
-                const testId = test_data.id;
-                window.location.href = "{% url 'editor:vac_konst' %}?test_id=" + testId;
-            }
-        </script>
         <header class = "header">
             <div class="header-logo">
                 <a href="menu-konst.html"><img class="header-logo-img" src="/src/static/img/logo-2.png" alt="Logo"></a>
@@ -73,8 +66,8 @@
             <dialog class="vacancy-card-1-menu" id="overlayMenu">
                 <div class="vacancy-card-1-menu-1">
                     <form class="menu-form" method="dialog">
-                        <div class="menu-style">
-                            <a href="#">Ссылка</a>
+                        <div class="menu-style" id="linkButton">
+                            <a id="linkText">Ссылка</a>
                         </div>
                         <button class="menu-close">
                             <img class="menu-close-img" src="/src/static/img/close.svg" alt="close">
