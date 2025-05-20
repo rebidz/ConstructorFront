@@ -22,7 +22,7 @@
                 <a href="menu-konst.html"><img class="header-logo-img" src="/src/static/img/logo-2.png" alt="Logo"></a>
             </div>
             <button class ="hc-button">Сохранить</button>
-            <button onclick="publishAndRedirect()" class="hc-button-1">Ссылка</button>
+            <button onclick="overlayMenu.showModal()" class="hc-button-1">Ссылка</button>
             <div class="icons">
                 <a href="#"><img src="/src/static/img/location.svg" alt="geo"></a>
                 <a href="#"><img src="/src/static/img/mail.svg" alt="Email"></a>
@@ -70,5 +70,17 @@
                 </div>
             </div>
         </footer>
+            <dialog class="vacancy-card-1-menu" id="overlayMenu">
+                <div class="vacancy-card-1-menu-1">
+                    <form class="menu-form" method="dialog">
+                        <div class="menu-style">
+                            <a href="#">Ссылка</a>
+                        </div>
+                        <button class="menu-close">
+                            <img class="menu-close-img" src="/src/static/img/close.svg" alt="close">
+                        </button>
+                    </form>
+                </div>
+            </dialog>
     </body>
 </html>
