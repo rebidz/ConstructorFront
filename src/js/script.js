@@ -151,12 +151,18 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
+    let eventOnLinkAdded = false;
+
     // !!!
     // MAKSIM ТУТ ОТОБРАЖЕНИЕ СОХРАНЕННЫХ ТЕСТОВ!!!
     // !!!
     async function renderTests(testData) {
         const questionContainer = document.querySelector("#form-questions");
         questionContainer.innerHTML = "";
+        const durationHours = testData.duration.slice(0, 2);
+        const durationMinutes = testData.duration.slice(3, 5);
+        document.getElementById('test-hours').value = durationHours;
+        document.getElementById('test-minutes').value = durationMinutes;
 
         testData.questions.forEach(question => {
             const questionElement = document.createElement('div');
@@ -233,6 +239,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             score.className = 'score-input';
             score.type = 'number';
             score.placeholder = 'Вес вопроса'
+            score.value = question.scores;
 
             questionControls.appendChild(score);
             questionControls.appendChild(copyButton);
@@ -245,7 +252,50 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             questionContainer.appendChild(questionElement);
             initializeQuestionControls(questionElement);
-            linkButton.innerHTML = `<a href="#">http://127.0.0.1:63342/UserData.html?test_id=${testData.id}</a>`;
+            linkButton.innerHTML = `<a href="#" id="linkText">http://127.0.0.1:63342/ConstructorFront/src/templates/UserData.html?test_id=${testData.id}</a>`;
+            if (!eventOnLinkAdded) {
+                copyLink();
+                eventOnLinkAdded = true;
+            }
+        });
+    }
+
+    function copyLink () {
+        const copyButton = document.querySelector('.menu-copy');
+        const linkTextElement = document.getElementById('linkText');
+
+        copyButton.addEventListener('click', (e) => {
+            e.preventDefault();
+
+            const textToCopy = linkTextElement.textContent;
+
+            try {
+                if (navigator.clipboard) {
+                    navigator.clipboard.writeText(textToCopy).then(() => {
+                        showNotification('Текст скопирован!');
+                    }).catch(() => {
+                        fallbackCopy();
+                    });
+                } else {
+                    fallbackCopy();
+                }
+            } catch (err) {
+                fallbackCopy();
+            }
+
+            function fallbackCopy() {
+                const tempInput = document.createElement('input');
+                tempInput.value = textToCopy;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                try {
+                    document.execCommand('copy');
+                    showNotification('Текст скопирован!');
+                } catch (err) {
+                    showNotification('Не удалось скопировать');
+                }
+                document.body.removeChild(tempInput);
+            }
         });
     }
 
@@ -379,7 +429,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 if (response.ok) {
                     alert('Тест успешно сохранен!');
                     window.location.href = 'menu-konst.html';
-                    // console.log(response.json())
                     return response.json();
                 } else {
                     throw new Error('Ошибка при сохранении теста.');
@@ -419,10 +468,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 });
 
-
-
-
-
 function showNotification(message) {
     const notification = document.getElementById('notification');
     notification.textContent = message;
@@ -432,42 +477,3 @@ function showNotification(message) {
         notification.style.opacity = '0';
     }, 2000);
 }
-
-document.addEventListener('DOMContentLoaded', () => {
-    const copyButton = document.querySelector('.menu-copy');
-    const linkTextElement = document.getElementById('linkText');
-
-    copyButton.addEventListener('click', (e) => {
-        e.preventDefault();
-
-        const textToCopy = linkTextElement.textContent;
-
-        try {
-            if (navigator.clipboard) {
-                navigator.clipboard.writeText(textToCopy).then(() => {
-                    showNotification('Текст скопирован!');
-                }).catch(() => {
-                    fallbackCopy();
-                });
-            } else {
-                fallbackCopy();
-            }
-        } catch (err) {
-            fallbackCopy();
-        }
-
-        function fallbackCopy() {
-            const tempInput = document.createElement('input');
-            tempInput.value = textToCopy;
-            document.body.appendChild(tempInput);
-            tempInput.select();
-            try {
-                document.execCommand('copy');
-                showNotification('Текст скопирован!');
-            } catch (err) {
-                showNotification('Не удалось скопировать');
-            }
-            document.body.removeChild(tempInput);
-        }
-    });
-});

@@ -195,6 +195,7 @@ span{
     border-radius: 5px;
     width: 100px;
     height: 20px;
+    text-align: center;
 }
 
 .timer {
@@ -209,6 +210,8 @@ span{
     border-radius: 5px;
     width: 80px;
     height: 20px;
+    text-align: center;
+    background-color: #FFFFFF;
 }
 
 .timer-min {
@@ -216,6 +219,8 @@ span{
     border-radius: 5px;
     width: 80px;
     height: 20px;
+    text-align: center;
+    background-color: #FFFFFF;
 }
 
 .timer-button {
