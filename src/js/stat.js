@@ -26,6 +26,10 @@ function renderTests (userDataRequest) {
         testElement.style = "cursor: pointer;"
         testElement.innerHTML = `
                 <h1 class="section-header-h1">${test.title}</h1>
+                <p class="score"><b>Проходной балл</b></p>
+                <h4 class="score-section">25 баллов</h4>
+                <p class="score"><b>Средний балл</b></p>
+                <h4 class="score-section">20 из 30</h4>
                 <img src="/src/static/img/Chevron.svg" class="section-header-img" alt="plus">`
 
         const testContent = document.createElement("div");

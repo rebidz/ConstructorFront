@@ -60,7 +60,7 @@ footer {
     cursor: pointer;
     align-self: flex-end;
     margin-left: 770px;
-    margin-bottom: 1px;
+    margin-bottom: 0px;
 }
 
 .hc-button-1 {
@@ -70,7 +70,7 @@ footer {
     cursor: pointer;
     align-self: flex-end;
     margin-right: 670px;
-    margin-bottom: 4px;
+    margin-bottom: 0px;
 }
 
 .search-section {
