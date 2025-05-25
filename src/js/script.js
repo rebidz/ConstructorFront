@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const addQuestionButton = document.getElementById('add-question');
     const linkButton = document.getElementById('linkButton');
 
-    let testDuration = { hours: "0", minutes: "0" }; // Значение по умолчанию
+    let testDuration = {hours: "0", minutes: "0"}; // Значение по умолчанию
 
     document.getElementById('set-timer').addEventListener('click', () => {
         const hours = parseInt(document.getElementById('test-hours').value) || 0;
@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             alert(`Установите время прохождения теста`);
             return;
         }
-        testDuration = { hours, minutes };
+        testDuration = {hours, minutes};
         alert(`Время на тест установлено: ${hours} часов и ${minutes} минут`);
     });
 
@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     };
 
-    document.addEventListener('click', function(event) {
+    document.addEventListener('click', function (event) {
         if (event.target.closest('.cross-but')) {
             const button = event.target.closest('.cross-but');
             const optionDiv = button.closest('.option');
@@ -119,17 +119,17 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Функция для добавления пар карточек
     const attachAddCardPairEvent = (container) => {
-      const addCardPairButton = container.querySelector('.add-card-pair-btn');
-      if (addCardPairButton) {
-          addCardPairButton.addEventListener('click', () => {
-              const cardPairDiv = document.createElement('div');
-              cardPairDiv.className = 'card-pair';
-              cardPairDiv.innerHTML = `
+        const addCardPairButton = container.querySelector('.add-card-pair-btn');
+        if (addCardPairButton) {
+            addCardPairButton.addEventListener('click', () => {
+                const cardPairDiv = document.createElement('div');
+                cardPairDiv.className = 'card-pair';
+                cardPairDiv.innerHTML = `
                   <input type='text' placeholder='Карточка' />
                   <input type='text' placeholder='Соответствующая карточка' />`;
-              container.insertBefore(cardPairDiv, addCardPairButton);
-          });
-      }
+                container.insertBefore(cardPairDiv, addCardPairButton);
+            });
+        }
     };
 
     async function getTestData() {
@@ -175,7 +175,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const option = document.createElement('option');
                 option.value = type;
                 option.textContent = type === 'single' ? 'Один вариант ответа' :
-                                   type === 'multiple' ? 'Несколько вариантов ответа' : 'Развернутый ответ';
+                    type === 'multiple' ? 'Несколько вариантов ответа' : 'Развернутый ответ';
                 if (type === question.question_type) option.selected = true;
                 selectType.appendChild(option);
             });
@@ -203,8 +203,12 @@ document.addEventListener('DOMContentLoaded', async () => {
                     const span = document.createElement('span');
                     span.contentEditable = true;
                     span.textContent = option.text;
+                    const deleteOptionBtn = document.createElement('button');
+                    deleteOptionBtn.className = 'cross-but';
+                    deleteOptionBtn.innerHTML = '<img src="/src/static/img/cross.svg" alt="Удалить">';
                     optionElement.appendChild(input);
                     optionElement.appendChild(span);
+                    optionElement.appendChild(deleteOptionBtn);
                     optionsContainer.appendChild(optionElement);
                 });
 
@@ -286,10 +290,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         const hoursDuration = testDuration.hours.toString();
         const minutesDuration = testDuration.minutes.toString();
         console.log(minutesDuration.length);
-        let duration = hoursDuration.length === 1 ? "0" + (hoursDuration + ":") : hoursDuration + ":";
-        duration += minutesDuration.length === 1 ? "0" + (minutesDuration + ":00") : minutesDuration + ":00";
+        let duration = hoursDuration.length === 1 ? "0" + hoursDuration + ":" : hoursDuration + ":";
+        duration += minutesDuration.length === 1 ? "0" + minutesDuration + ":00" : minutesDuration + ":00";
         const questions = Array.from(document.querySelectorAll('.question')).map(question => {
-            const scores = 10; // получить вес вопроса
+            const scoreInput = question.querySelector('.score-input');
+            const scores = parseInt(scoreInput.value) || 0;
+            // const scores = 10; // получить вес вопроса
             const title = question.querySelector('.question-title').textContent.trim();
             const questionType = question.querySelector('.question-type').value;
             let options = [];
@@ -410,5 +416,58 @@ document.addEventListener('DOMContentLoaded', async () => {
     init().catch(error => {
         console.error("Ошибка инициализации:", error);
         alert("Ошибка при загрузке страницы");
+    });
+});
+
+
+
+
+
+function showNotification(message) {
+    const notification = document.getElementById('notification');
+    notification.textContent = message;
+    notification.style.opacity = '1';
+
+    setTimeout(() => {
+        notification.style.opacity = '0';
+    }, 2000);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const copyButton = document.querySelector('.menu-copy');
+    const linkTextElement = document.getElementById('linkText');
+
+    copyButton.addEventListener('click', (e) => {
+        e.preventDefault();
+
+        const textToCopy = linkTextElement.textContent;
+
+        try {
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(textToCopy).then(() => {
+                    showNotification('Текст скопирован!');
+                }).catch(() => {
+                    fallbackCopy();
+                });
+            } else {
+                fallbackCopy();
+            }
+        } catch (err) {
+            fallbackCopy();
+        }
+
+        function fallbackCopy() {
+            const tempInput = document.createElement('input');
+            tempInput.value = textToCopy;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            try {
+                document.execCommand('copy');
+                showNotification('Текст скопирован!');
+            } catch (err) {
+                showNotification('Не удалось скопировать');
+            }
+            document.body.removeChild(tempInput);
+        }
     });
 });

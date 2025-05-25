@@ -66,14 +66,30 @@
             <dialog class="vacancy-card-1-menu" id="overlayMenu">
                 <div class="vacancy-card-1-menu-1">
                     <form class="menu-form" method="dialog">
-                        <div class="menu-style" id="linkButton">
-                            <a id="linkText">Ссылка</a>
-                        </div>
                         <button class="menu-close">
                             <img class="menu-close-img" src="/src/static/img/close.svg" alt="close">
+                        </button>
+                        <div class="menu-style" id="linkButton">
+                            <a id="linkText" href="#">Ссылка</a>
+                        </div>
+                        <button class="menu-copy">
+                            <p>Скопировать ссылку</p>
+                            <img class="menu-copy-img" src="/src/static/img/copy-2.svg" alt="copy">
                         </button>
                     </form>
                 </div>
             </dialog>
+        <div id="notification" style="
+            position: fixed;
+            top: 900px;
+            right: 10px;
+            background: #333;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 4px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 9999;">
+        </div>
     </body>
 </html>
