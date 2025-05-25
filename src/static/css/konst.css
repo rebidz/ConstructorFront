@@ -79,10 +79,11 @@ main {
     border-bottom: 2px solid #AB7843;
     padding-bottom: 5px;
     margin-bottom: 10px;
+    margin-top: 5px;
     outline: none;
 }
 
-.form-header p {
+.form-header-p {
     font-size: 24px;
     color: black;
     outline: none;
@@ -349,7 +350,7 @@ span{
     cursor: pointer;
     align-self: flex-end;
     margin-left: 770px;
-    margin-bottom: 1px;
+    margin-bottom: 0px;
 }
 
 .hc-button-1 {
@@ -363,7 +364,7 @@ span{
     cursor: pointer;
     align-self: flex-end;
     margin-right: 670px;
-    margin-bottom: 1px;
+    margin-bottom: 0px;
 }
 
 .hc-button-3 {
@@ -457,4 +458,28 @@ span{
 .menu-copy-img {
     weight: 22px;
     height: 22px;
+}
+
+.min-score {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    gap: 10px;
+}
+
+.min-score-p {
+    margin-top: 15px;
+    margin-bottom: 0;
+    color: #AB7843;
+}
+
+.min-score-input {
+    display: flex;
+    border:2px solid #AB7843;
+    border-radius: 10px;
+    width: 100px;
+    height: 20px;
+    text-align: center;
+    margin-top: 15px;
+
 }

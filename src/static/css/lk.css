@@ -98,6 +98,20 @@ main {
 
 }
 
+.name {
+    border:2px solid #9C4D50;
+    border-radius: 10px;
+    padding: 5px 10px;
+    background-color: #FFF;
+}
+
+.email {
+    border:2px solid #9C4D50;
+    border-radius: 10px;
+    padding: 5px 10px;
+    background-color: #FFF;
+}
+
 .info {
     display: flex;
     flex-direction: column;
