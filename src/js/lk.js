@@ -9,22 +9,6 @@ function getCookie(name) {
     return null;
 }
 
-
-function getAllUserDataFromToken(token) {
-    if (!token) return null;
-
-    try {
-        const payloadBase64 = token.split('.')[1];
-        const payloadJson = atob(payloadBase64.replace(/-/g, '+').replace(/_/g, '/'));
-        const payload = JSON.parse(payloadJson);
-        return payload;
-    } catch (error) {
-        console.error("Ошибка при декодировании токена:", error);
-        return null;
-    }
-}
-
-
 async function fetchUserData() {
     try {
         const response = await fetch("http://127.0.0.1:8000/users/me", {
@@ -47,8 +31,6 @@ async function fetchUserData() {
 
 document.addEventListener('DOMContentLoaded', () => {
     const deleteBtn = document.getElementById('deleteAccount');
-    const token = getCookie('token');
-    // const userData = getAllUserDataFromToken(token);
     const userData = fetchUserData();
     let userId;
     let firstName;
