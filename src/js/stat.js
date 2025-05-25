@@ -18,16 +18,9 @@ function renderTests (userDataRequest) {
     const testsSection = document.querySelector(".box");
     testsSection.innerHTML = "";
 
-    let UsersSentTheTest = {};
-
-    userDataRequest.tests.forEach(test => {
+    userDataRequest.tests.forEach(((test, index) => {
         const passingScore = test.passing_score;
-        const usersData = getUsersSentTest(test.id);
-        usersData.then(data => {
-            console.log(data.test)
-            UsersSentTheTest[data.id] = data.test;
-        })
-        // console.log(UsersSentTheTest);
+        let testCount = 0;
         const testElement = document.createElement("div");
         testElement.className = "section-header";
         testElement.style = "cursor: pointer;"
@@ -38,15 +31,34 @@ function renderTests (userDataRequest) {
         const testContent = document.createElement("div");
         testContent.className = "section-content";
         testContent.style = "display: none;"
-        testContent.innerHTML = `<ol>
-                    <div class ="section-content-in"><b><li>Иванов Иван Иванович</li></b><a href="#">Ivanov.Ivan@example.com</a><button class="section-content-in-but">25 из 30</button></div>
-                    <div class ="section-content-in"><b><li>Второй пункт</li></b><a href="#">Ivanov.Ivan@example.com</a><button class="section-content-in-but">25 из 30</button></div>
-                    <div class ="section-content-in"><b><li>Третий пункт</li></b><a href="#">Ivanov.Ivan@example.com</a><button class="section-content-in-but">52 из 52</button></div>
-                </ol>`
+
+        testContent.innerHTML = `<ol id="test-${index}"></ol>`
 
         testsSection.appendChild(testElement);
         testsSection.appendChild(testContent);
-    })
+
+        getUsersSentTest(test.id).then(data => {
+            if (!Array.isArray(data.test)) {
+                console.error("Данные не являются массивом:", data);
+                return;
+            }
+
+            const testList = document.getElementById(`test-${index}`);
+            console.log(data.test)
+            data.test.forEach(user => {
+                const userDataHtml = `
+                    <div class="section-content-in">
+                        <b><li>${user.first_name} ${user.last_name}</li></b>
+                        <a href="#">${user.email}</a>
+                        <button class="section-content-in-but">${user.score ?? "0"} из ${passingScore}</button>
+                    </div>
+                `;
+                testList.insertAdjacentHTML('beforeend', userDataHtml);
+            });
+        }).catch(error => {
+            console.error("Ошибка при загрузке пользователей:", error);
+        });
+    }))
 }
 
 function addEventOnTestBoxes () {
@@ -76,8 +88,7 @@ async function fetchUserData() {
         if (!response.ok) {
             throw new Error("Ошибка при получении данных пользователя");
         }
-        const userData = response.json();
-        return userData;
+        return response.json();
     } catch (error) {
         console.error("Ошибка:", error);
     }
