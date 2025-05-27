@@ -17,19 +17,19 @@ document.addEventListener('DOMContentLoaded',  () => {
 function renderTests (userDataRequest) {
     const testsSection = document.querySelector(".box");
     testsSection.innerHTML = "";
-
-    userDataRequest.tests.forEach(((test, index) => {
+    console.log(userDataRequest)
+    userDataRequest.tests.forEach((test, index) => {
+        let avgTestScore = 0;
         const passingScore = test.passing_score;
-        let testCount = 0;
         const testElement = document.createElement("div");
         testElement.className = "section-header";
         testElement.style = "cursor: pointer;"
         testElement.innerHTML = `
                 <h1 class="section-header-h1">${test.title}</h1>
                 <p class="score"><b>Проходной балл</b></p>
-                <h4 class="score-section">25 баллов</h4>
+                <h4 class="score-section" id="passing-score-${index}">${test.passing_score}</h4>
                 <p class="score"><b>Средний балл</b></p>
-                <h4 class="score-section">20 из 30</h4>
+                <h4 class="score-section" id="avg-score-${index}"></h4>
                 <img src="/src/static/img/Chevron.svg" class="section-header-img" alt="plus">`
 
         const testContent = document.createElement("div");
@@ -50,6 +50,7 @@ function renderTests (userDataRequest) {
             const testList = document.getElementById(`test-${index}`);
             console.log(data.test)
             data.test.forEach(user => {
+                avgTestScore += user.score
                 const userDataHtml = `
                     <div class="section-content-in">
                         <b><li>${user.first_name} ${user.last_name}</li></b>
@@ -59,10 +60,12 @@ function renderTests (userDataRequest) {
                 `;
                 testList.insertAdjacentHTML('beforeend', userDataHtml);
             });
+            console.log(avgTestScore / data.test.length)
+            document.getElementById(`avg-score-${index}`).textContent = avgTestScore / data.test.length || 0;
         }).catch(error => {
             console.error("Ошибка при загрузке пользователей:", error);
         });
-    }))
+    })
 }
 
 function addEventOnTestBoxes () {

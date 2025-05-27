@@ -161,6 +161,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         questionContainer.innerHTML = "";
         const durationHours = testData.duration.slice(0, 2);
         const durationMinutes = testData.duration.slice(3, 5);
+        document.getElementById('passing-score').value = testData.passing_score;
         document.getElementById('test-hours').value = durationHours;
         document.getElementById('test-minutes').value = durationMinutes;
 
@@ -336,12 +337,15 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const saveTest = () => {
         const testTitle = document.querySelector('.form-header h1').textContent.trim();
-        const testDescription = document.querySelector('.form-header p').textContent.trim();
-        const hoursDuration = testDuration.hours.toString();
-        const minutesDuration = testDuration.minutes.toString();
-        console.log(minutesDuration.length);
+        const testDescription = document.querySelector('.form-header-p').textContent.trim();
+        const passingScore = document.getElementById('passing-score').value;
+        const hoursDuration = document.getElementById('test-hours').value;
+        const minutesDuration = document.getElementById('test-minutes').value;
         let duration = hoursDuration.length === 1 ? "0" + hoursDuration + ":" : hoursDuration + ":";
         duration += minutesDuration.length === 1 ? "0" + minutesDuration + ":00" : minutesDuration + ":00";
+        if (duration === "::00") {
+            duration = '00:00:00';
+        }
         const questions = Array.from(document.querySelectorAll('.question')).map(question => {
             const scoreInput = question.querySelector('.score-input');
             const scores = parseInt(scoreInput.value) || 0;
@@ -398,7 +402,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             description: testDescription,
             questions: questions,
             duration: duration,
-            passing_score: 20,
+            passing_score: passingScore,
             user_id: userId
         };
 
