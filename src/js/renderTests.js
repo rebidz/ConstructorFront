@@ -1,6 +1,6 @@
 async function fetchUserData() {
     try {
-        const response = await fetch("http://127.0.0.1:8000/users/me", {
+        const response = await fetch("http://127.0.0.1:8000/api_v1/users/me", {
             method: "GET",
             credentials: "include",
             headers: {
@@ -72,7 +72,7 @@ async function displayUserTests(tests) {
 // Функция для удаления теста
 async function deleteTest(testId, cardElement) {
     try {
-        const response = await fetch(`http://127.0.0.1:8000/tests/delete_test/${testId}`, {
+        const response = await fetch(`http://127.0.0.1:8000/api_v1/tests/${testId}`, {
             method: "DELETE",
             headers: {
               "Accept": "application/json"

@@ -85,7 +85,7 @@ function addEventOnTestBoxes () {
 
 async function fetchUserData() {
     try {
-        const response = await fetch("http://127.0.0.1:8000/users/me", {
+        const response = await fetch("http://127.0.0.1:8000/api_v1/users/me", {
             method: "GET",
             credentials: "include",
             headers: {
@@ -103,7 +103,7 @@ async function fetchUserData() {
 
 async function getUsersSentTest(testId) {
     try {
-        const response = await fetch(`http://127.0.0.1:8000/tests/get_users_sent/${testId}`, {
+        const response = await fetch(`http://127.0.0.1:8000/api_v1/tests/users/${testId}`, {
             method: "GET",
             credentials: "include",
             headers: {

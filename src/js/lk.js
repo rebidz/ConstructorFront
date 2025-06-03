@@ -11,7 +11,7 @@ function getCookie(name) {
 
 async function fetchUserData() {
     try {
-        const response = await fetch("http://127.0.0.1:8000/users/me", {
+        const response = await fetch("http://127.0.0.1:8000/api_v1/users/me", {
             method: "GET",
             credentials: "include",
             headers: {
@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!confirm('Вы уверены, что хотите удалить аккаунт? Это действие необратимо.')) return;
 
             try {
-                const response = await fetch(`http://127.0.0.1:8000/users/delete_user/${userId}`, {
+                const response = await fetch(`http://127.0.0.1:8000/api_v1/users/${userId}`, {
                     method: 'DELETE',
                     credentials: 'include',
                     headers: { 'Content-Type': 'application/json' }
@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (logoutBtn) {
         logoutBtn.addEventListener('click', async () => {
             try {
-                const response = await fetch("http://127.0.0.1:8000/auth/logout", {
+                const response = await fetch("http://127.0.0.1:8000/api_v1/auth/logout", {
                     method: 'POST',
                     credentials: 'include',
                     headers: { 'Content-Type': 'application/json' }
@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             try {
-                const response = await fetch(`http://127.0.0.1:8000/users/update_user/${userId}`, {
+                const response = await fetch(`http://127.0.0.1:8000/api_v1/users/${userId}`, {
                     method: 'PATCH',
                     credentials: 'include',
                     headers: { 'Content-Type': 'application/json' },

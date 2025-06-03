@@ -138,7 +138,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (!testId) return;
 
         try {
-            const response = await fetch(`http://127.0.0.1:8000/tests/get_test/${testId}`);
+            const response = await fetch(`http://127.0.0.1:8000/api_v1/tests/${testId}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCSRFToken()
+                },
+            });
             const data = await response.json();
 
             if (!data.title) throw new Error(data.detail || "Тест не найден");
@@ -338,7 +344,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const saveTest = () => {
         const testTitle = document.querySelector('.form-header h1').textContent.trim();
         const testDescription = document.querySelector('.form-header-p').textContent.trim();
-        const passingScore = document.getElementById('passing-score').value;
+        const passingScore = document.getElementById('passing-score').value || 0;
         const hoursDuration = document.getElementById('test-hours').value;
         const minutesDuration = document.getElementById('test-minutes').value;
         let duration = hoursDuration.length === 1 ? "0" + hoursDuration + ":" : hoursDuration + ":";
@@ -415,7 +421,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         console.log(testId);
 
-        let url = 'http://127.0.0.1:8000/tests/create_or_save_test';
+        let url = 'http://127.0.0.1:8000/api_v1/tests';
         if (testId !== null) {
             url += `?test_id=${testId}`;
         }

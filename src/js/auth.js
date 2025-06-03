@@ -5,7 +5,7 @@ if (document.getElementById('loginForm') !== null) {
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
 
-        fetch("http://127.0.0.1:8000/auth/login", {
+        fetch("http://127.0.0.1:8000/api_v1/auth/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded",
@@ -38,7 +38,7 @@ if (document.getElementById('loginForm') !== null) {
         const lastName = document.getElementById('lastName').value;
         const password = document.getElementById('password').value;
 
-        fetch("http://127.0.0.1:8000/users/create_user", {
+        fetch("http://127.0.0.1:8000/api_v1/users", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
