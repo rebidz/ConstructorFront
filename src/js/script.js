@@ -198,8 +198,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                     </div>`;
 
                 const pairsContainer = container.querySelector('.card-pairs-container');
-
-                question.pairs.forEach((pair, index) => {
+                // console.log(question)
+                question.options.forEach((pair, index) => {
                     const pairNum = index + 1;
                     const pairId = `pair-${pairNum}`;
                     const leftId = `left-${pairNum}-0`;
@@ -207,8 +207,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
                     pairsContainer.insertAdjacentHTML('beforeend', `
                         <div class="card-pair" data-pair-id="${pairId}">
-                            <div class="card left-card" data-id="${leftId}" data-original-id="${leftId}" contenteditable="true">${pair.left}</div>
-                            <div class="card right-card" data-id="${rightId}" data-original-id="${rightId}" contenteditable="true">${pair.right}</div>
+                            <div class="card left-card" data-id="${leftId}" data-original-id="${leftId}" contenteditable="true">${pair.text}</div>
+                            <div class="card right-card" data-id="${rightId}" data-original-id="${rightId}" contenteditable="true">${pair.text}</div>
                             <button class="cross-but"><img class="cross" src="/src/static/img/cross.svg"></button>
                         </div>`);
                 });
@@ -387,23 +387,13 @@ document.addEventListener('DOMContentLoaded', async () => {
                 options = [{"text": answerText.toLowerCase(), "is_correct": true}]
             }
             else if (questionType === 'matching') {
-                // const terms = question.querySelectorAll('.left-card')
-                // const definitions = question.querySelectorAll('.right-card')
-                // terms.forEach(term => {
-                //     const
-                // })
-
-                            // Собираем все левые карточки (термины)
                 const leftCards = question.querySelectorAll('.left-card');
 
                 leftCards.forEach(leftCard => {
                     const leftId = leftCard.dataset.id;
-                    // Разбираем ID формата "left-X-Y"
                     const [, pairNum, connectedRightNum] = leftId.split('-');
 
-                    // Если есть связь (Y ≠ 0)
                     if (connectedRightNum !== '0') {
-                        // Находим соответствующую правую карточку (формат "right-Y-X")
                         const rightCard = question.querySelector(`.right-card[data-id="right-${connectedRightNum}-${pairNum}"]`);
 
                         if (rightCard) {
@@ -474,7 +464,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             testId = test_data.id;
         }
 
-        console.log(testId);
         console.log(testData);
         let url = 'http://127.0.0.1:8000/api_v1/tests';
         if (testId !== null) {
