@@ -483,3 +483,97 @@ span{
     margin-top: 15px;
 
 }
+
+
+
+
+
+
+
+
+
+
+.matching-game-container {
+  margin: 20px 0;
+}
+
+.matching-game {
+  display: flex;
+  position: relative;
+}
+
+.card-pairs-container {
+  width: 100%;
+  min-height: 100px;
+}
+
+.card-pair {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  position: relative;
+}
+
+.card {
+  flex: 1;
+  padding: 10px;
+  width: 200px;
+  border: 2px solid #AB7843;
+  border-radius: 10px;
+  background-color: #FDF6EE;
+  cursor: pointer;
+  min-height: 20px;
+  transition: all 0.2s ease;
+  margin-right: 40px;
+}
+
+.left-card {
+
+}
+
+.right-card {
+    margin-right: 0px;
+}
+
+.card[contenteditable="true"]:empty:before {
+  content: attr(placeholder);
+  color: #999;
+}
+
+.card.selected {
+  background-color: #D7BDA6;
+}
+
+.card.matched {
+  background-color: #D7BDA6;
+  opacity: 0.9;
+}
+
+.connector {
+  position: absolute;
+  background-color: #AB7843;
+  height: 3px;
+  z-index: 1;
+  transform-origin: left center;
+}
+
+.add-pair-btn {
+    margin-top: 10px;
+    padding: 1px 0px;
+    text-align: start;
+    border-bottom: 2px solid #AB7843;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    background-color: #FDF6EE;
+    color: #AD9698;
+    cursor: pointer;
+    width: 200px;
+}
+
+.cross-but {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+}

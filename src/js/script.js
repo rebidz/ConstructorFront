@@ -25,16 +25,20 @@ document.addEventListener('DOMContentLoaded', async () => {
                     </div>`;
         }
         if (type === 'matching') {
-            return `<div class="matching-container">
-                      <div class="card-pair">
-                        <input type="text" placeholder="1" />
-                        <input type="text" placeholder="1" />
+            return `   
+                    <div class="matching-game-container">
+                      <div class="matching-game">
+                        <div class="column left-column">
+                          <div class="card-pairs-container">
+                            <div class="card-pair" data-pair-id="pair-1">
+                              <div class="card left-card" data-id="left-1-0" data-original-id="left-1-0" contenteditable="true" placeholder="Термин"></div>
+                              <div class="card right-card" data-id="right-1-0" data-original-id="right-1-0" contenteditable="true" placeholder="Определение"></div>
+                              <button class="cross-but"><img class="cross" src="/src/static/img/cross.svg"></button>
+                            </div>
+                          </div>
+                          <button class="add-pair-btn">Добавить пару</button>
+                        </div>
                       </div>
-                      <div class="card-pair">
-                        <input type="text" placeholder="2" />
-                        <input type="text" placeholder="2" />
-                      </div>
-                      <button class="add-card-pair-btn">Добавить пару карточек</button>
                     </div>`;
         }
         const inputType = type === 'single' ? 'radio' : 'checkbox';
@@ -95,9 +99,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             const type = selectType.value;
             optionsContainer.innerHTML = createOptionsHTML(type, questionId);
             attachAddOptionEvent(type, optionsContainer, questionId);
-            if (type === 'matching') {
-                // Логика для добавления пар карточек
-                attachAddCardPairEvent(optionsContainer);
+            if (selectType.value === 'matching') {
+              initMatchingGame(question);
             }
         });
 
@@ -112,24 +115,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
             initializeQuestionControls(clonedQuestion);
             formQuestions.insertBefore(clonedQuestion, question.nextSibling);
+            clonedQuestion.scrollIntoView({ behavior: 'smooth' });
         });
 
         attachAddOptionEvent(selectType.value, optionsContainer, questionId);
-    };
-
-    // Функция для добавления пар карточек
-    const attachAddCardPairEvent = (container) => {
-        const addCardPairButton = container.querySelector('.add-card-pair-btn');
-        if (addCardPairButton) {
-            addCardPairButton.addEventListener('click', () => {
-                const cardPairDiv = document.createElement('div');
-                cardPairDiv.className = 'card-pair';
-                cardPairDiv.innerHTML = `
-                  <input type='text' placeholder='Карточка' />
-                  <input type='text' placeholder='Соответствующая карточка' />`;
-                container.insertBefore(cardPairDiv, addCardPairButton);
-            });
-        }
     };
 
     async function getTestData() {
@@ -184,11 +173,12 @@ document.addEventListener('DOMContentLoaded', async () => {
             const selectType = document.createElement('select');
             selectType.className = 'question-type';
 
-            ['single', 'multiple', 'text'].forEach(type => {
+            ['single', 'multiple', 'text', 'matching'].forEach(type => {
                 const option = document.createElement('option');
                 option.value = type;
                 option.textContent = type === 'single' ? 'Один вариант ответа' :
-                    type === 'multiple' ? 'Несколько вариантов ответа' : 'Развернутый ответ';
+                    type === 'multiple' ? 'Несколько вариантов ответа' :
+                    type === 'matching' ? 'Соотнесение карточек' : 'Развернутый ответ';
                 if (type === question.question_type) option.selected = true;
                 selectType.appendChild(option);
             });
@@ -196,7 +186,37 @@ document.addEventListener('DOMContentLoaded', async () => {
             const optionsContainer = document.createElement('div');
             optionsContainer.className = 'options';
 
-            if (question.question_type === 'text') {
+            if (question.question_type === 'matching') {
+                const container = document.createElement('div');
+                container.className = 'matching-game-container';
+                container.innerHTML = `
+                    <div class="matching-game">
+                        <div class="column left-column">
+                            <div class="card-pairs-container"></div>
+                            <button class="add-pair-btn">Добавить пару</button>
+                        </div>
+                    </div>`;
+
+                const pairsContainer = container.querySelector('.card-pairs-container');
+
+                question.pairs.forEach((pair, index) => {
+                    const pairNum = index + 1;
+                    const pairId = `pair-${pairNum}`;
+                    const leftId = `left-${pairNum}-0`;
+                    const rightId = `right-${pairNum}-0`;
+
+                    pairsContainer.insertAdjacentHTML('beforeend', `
+                        <div class="card-pair" data-pair-id="${pairId}">
+                            <div class="card left-card" data-id="${leftId}" data-original-id="${leftId}" contenteditable="true">${pair.left}</div>
+                            <div class="card right-card" data-id="${rightId}" data-original-id="${rightId}" contenteditable="true">${pair.right}</div>
+                            <button class="cross-but"><img class="cross" src="/src/static/img/cross.svg"></button>
+                        </div>`);
+                });
+
+                optionsContainer.appendChild(container);
+            }
+
+            else if (question.question_type === 'text') {
                 const textAnswerContainer = document.createElement('div');
                 textAnswerContainer.className = 'text-answer-container';
                 const textArea = document.createElement('textarea');
@@ -328,7 +348,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     <option value="single">Один вариант ответа</option>
                     <option value="multiple">Несколько вариантов ответа</option>
                     <option value="text">Развернутый ответ</option>
-                    <option value="matching">Соотнесение карточек</option> <!-- Новый тип вопроса -->
+                    <option value="matching">Соотнесение карточек</option>
                 </select>
                 <div class="options">${createOptionsHTML('single', questionCount)}</div>
                 <div class="question-controls">
@@ -365,7 +385,42 @@ document.addEventListener('DOMContentLoaded', async () => {
                 // Для текстового ответа сохраняем развернутый текст
                 answerText = question.querySelector('.text-answer')?.value?.trim() || '';
                 options = [{"text": answerText.toLowerCase(), "is_correct": true}]
-            } else {
+            }
+            else if (questionType === 'matching') {
+                // const terms = question.querySelectorAll('.left-card')
+                // const definitions = question.querySelectorAll('.right-card')
+                // terms.forEach(term => {
+                //     const
+                // })
+
+                            // Собираем все левые карточки (термины)
+                const leftCards = question.querySelectorAll('.left-card');
+
+                leftCards.forEach(leftCard => {
+                    const leftId = leftCard.dataset.id;
+                    // Разбираем ID формата "left-X-Y"
+                    const [, pairNum, connectedRightNum] = leftId.split('-');
+
+                    // Если есть связь (Y ≠ 0)
+                    if (connectedRightNum !== '0') {
+                        // Находим соответствующую правую карточку (формат "right-Y-X")
+                        const rightCard = question.querySelector(`.right-card[data-id="right-${connectedRightNum}-${pairNum}"]`);
+
+                        if (rightCard) {
+                            options.push({
+                                text: leftCard.textContent.trim(),
+                                is_correct: rightCard.textContent.trim()
+                            });
+                        }
+                    }
+                });
+
+                // Если нет ни одной связи, добавляем пустую опцию
+                if (options.length === 0) {
+                    options = [{"text": "", "is_correct": true}];
+                }
+            }
+            else {
                 // Для обычных вариантов ответа собираем данные
                 options = Array.from(question.querySelectorAll('.option')).map(option => ({
                     text: option.querySelector('span').textContent.trim(),
@@ -420,7 +475,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         console.log(testId);
-
+        console.log(testData);
         let url = 'http://127.0.0.1:8000/api_v1/tests';
         if (testId !== null) {
             url += `?test_id=${testId}`;
@@ -486,4 +541,261 @@ function showNotification(message) {
     setTimeout(() => {
         notification.style.opacity = '0';
     }, 2000);
+}
+
+
+function initMatchingGame(questionElement) {
+    const gameContainer = questionElement.querySelector('.matching-game');
+    const pairsContainer = questionElement.querySelector('.card-pairs-container');
+
+    let selectedCard = null;
+    const matches = {};
+    const connectors = [];
+    let pairCounter = 0; // Счётчик для пар
+
+    // Обработчик клика по документу
+    function handleDocumentClick(e) {
+        if (!e.target.closest('.card') &&
+            !e.target.closest('.cross-but') &&
+            selectedCard) {
+            selectedCard.classList.remove('selected');
+            selectedCard = null;
+        }
+    }
+
+    document.addEventListener('click', handleDocumentClick);
+    questionElement.addEventListener('click', (e) => e.stopPropagation());
+
+    // Генерация ID для карточек
+    function generateCardIds(pairNum) {
+        return {
+            pairId: `pair-${pairNum}`,
+            leftId: `left-${pairNum}-0`,
+            rightId: `right-${pairNum}-0`
+        };
+    }
+
+    // Обновление ID при соединении
+    function updateConnectedIds(leftCard, rightCard) {
+        const leftIdParts = leftCard.dataset.id.split('-');
+        const rightIdParts = rightCard.dataset.id.split('-');
+
+        // Обновляем последнюю часть ID
+        leftIdParts[2] = rightIdParts[1]; // left-X-Y, где Y берём из right
+        rightIdParts[2] = leftIdParts[1]; // right-X-Y, где Y берём из left
+
+        const newLeftId = leftIdParts.join('-');
+        const newRightId = rightIdParts.join('-');
+
+        // Обновляем data-id и ID в matches
+        matches[newLeftId] = newRightId;
+        delete matches[leftCard.dataset.id];
+
+        leftCard.dataset.id = newLeftId;
+        rightCard.dataset.id = newRightId;
+
+        // Обновляем connectors
+        const connector = connectors.find(conn =>
+            (conn.leftId === leftCard.dataset.originalId || conn.leftId === leftCard.dataset.id) &&
+            (conn.rightId === rightCard.dataset.originalId || conn.rightId === rightCard.dataset.id)
+        );
+        if (connector) {
+            connector.leftId = newLeftId;
+            connector.rightId = newRightId;
+        }
+    }
+
+    // Добавление новой пары
+    questionElement.querySelector('.add-pair-btn')?.addEventListener('click', () => {
+        pairCounter++;
+        const ids = generateCardIds(pairCounter);
+
+        const pairHTML = `
+        <div class="card-pair" data-pair-id="${ids.pairId}">
+            <div class="card left-card" data-id="${ids.leftId}" data-original-id="${ids.leftId}" contenteditable="true" placeholder="Термин"></div>
+            <div class="card right-card" data-id="${ids.rightId}" data-original-id="${ids.rightId}" contenteditable="true" placeholder="Определение"></div>
+            <button class="cross-but"><img class="cross" src="/src/static/img/cross.svg"></button>
+        </div>`;
+
+        pairsContainer.insertAdjacentHTML('beforeend', pairHTML);
+        initCardEvents(pairsContainer.lastElementChild);
+    });
+
+    // Инициализация существующих карточек
+    questionElement.querySelectorAll('.card-pair').forEach((pair, index) => {
+        pairCounter = Math.max(pairCounter, index + 1);
+        initCardEvents(pair);
+    });
+
+    // Обработчики для карточек
+    function initCardEvents(pairElement) {
+        const leftCard = pairElement.querySelector('.left-card');
+        const rightCard = pairElement.querySelector('.right-card');
+        const deleteBtn = pairElement.querySelector('.cross-but');
+
+        [leftCard, rightCard].forEach(card => {
+            card.addEventListener('click', handleCardClick);
+        });
+
+        deleteBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const pair = e.target.closest('.card-pair');
+            const leftCard = pair.querySelector('.left-card');
+            const rightCard = pair.querySelector('.right-card');
+
+            if (leftCard.classList.contains('matched') || rightCard.classList.contains('matched')) {
+                disconnectPair(leftCard.dataset.id, rightCard.dataset.id);
+            }
+            pair.remove();
+        });
+    }
+
+    // Клик по карточке
+    function handleCardClick(e) {
+        e.stopPropagation();
+        const card = e.currentTarget;
+
+        // Отмена выделения
+        if (card === selectedCard) {
+            card.classList.remove('selected');
+            selectedCard = null;
+            return;
+        }
+
+        // Переназначение пары
+        if (card.classList.contains('matched')) {
+            const pair = findPairForCard(card.dataset.id);
+            if (pair) disconnectPair(pair.leftId, pair.rightId);
+        }
+
+        // Сброс выделения
+        gameContainer.querySelectorAll('.card').forEach(c => {
+            c.classList.remove('selected');
+        });
+
+        // Новое выделение
+        card.classList.add('selected');
+
+        // Первая карточка
+        if (!selectedCard) {
+            selectedCard = card;
+            return;
+        }
+
+        // Та же колонка
+        if ((selectedCard.classList.contains('left-card') && card.classList.contains('left-card')) ||
+            (selectedCard.classList.contains('right-card') && card.classList.contains('right-card'))) {
+            selectedCard.classList.remove('selected');
+            selectedCard = card;
+            return;
+        }
+
+        // Соединение
+        const [leftCard, rightCard] =
+            selectedCard.classList.contains('left-card')
+                ? [selectedCard, card]
+                : [card, selectedCard];
+
+        connectPair(leftCard, rightCard);
+        selectedCard = null;
+    }
+
+    // Соединение пары
+    function connectPair(leftCard, rightCard) {
+        const leftId = leftCard.dataset.id;
+        const rightId = rightCard.dataset.id;
+
+        if (matches[leftId]) disconnectPair(leftId, matches[leftId]);
+        if (Object.values(matches).includes(rightId)) {
+            const leftIdToDisconnect = Object.keys(matches).find(key => matches[key] === rightId);
+            disconnectPair(leftIdToDisconnect, rightId);
+        }
+
+        // Обновляем ID перед добавлением в matches
+        updateConnectedIds(leftCard, rightCard);
+
+        matches[leftCard.dataset.id] = rightCard.dataset.id;
+        leftCard.classList.add('matched');
+        rightCard.classList.add('matched');
+        createConnector(leftCard, rightCard);
+    }
+
+    // Создание соединительной линии
+    function createConnector(leftCard, rightCard) {
+        const leftRect = leftCard.getBoundingClientRect();
+        const rightRect = rightCard.getBoundingClientRect();
+        const gameRect = gameContainer.getBoundingClientRect();
+
+        const leftX = leftRect.right - gameRect.left;
+        const leftY = leftRect.top + leftRect.height / 2 - gameRect.top;
+        const rightX = rightRect.left - gameRect.left;
+        const rightY = rightRect.top + rightRect.height / 2 - gameRect.top;
+
+        const length = Math.sqrt(Math.pow(rightX - leftX, 2) + Math.pow(rightY - leftY, 2));
+        const angle = Math.atan2(rightY - leftY, rightX - leftX) * 180 / Math.PI;
+
+        const connector = document.createElement('div');
+        connector.className = 'connector';
+        connector.style.width = `${length}px`;
+        connector.style.left = `${leftX}px`;
+        connector.style.top = `${leftY}px`;
+        connector.style.transform = `rotate(${angle}deg)`;
+
+        gameContainer.appendChild(connector);
+        connectors.push({
+            leftId: leftCard.dataset.id,
+            rightId: rightCard.dataset.id,
+            element: connector
+        });
+    }
+
+    // Разъединение пары
+    function disconnectPair(leftId, rightId) {
+        const leftCard = document.querySelector(`.card[data-id="${leftId}"]`);
+        const rightCard = document.querySelector(`.card[data-id="${rightId}"]`);
+
+        if (leftCard) {
+            leftCard.classList.remove('matched');
+            // Возвращаем оригинальный ID
+            const originalId = leftCard.dataset.originalId;
+            leftCard.dataset.id = originalId;
+        }
+
+        if (rightCard) {
+            rightCard.classList.remove('matched');
+            // Возвращаем оригинальный ID
+            const originalId = rightCard.dataset.originalId;
+            rightCard.dataset.id = originalId;
+        }
+
+        const connectorIndex = connectors.findIndex(
+            conn => (conn.leftId === leftId && conn.rightId === rightId) ||
+                   (conn.leftId === rightId && conn.rightId === leftId)
+        );
+
+        if (connectorIndex !== -1) {
+            connectors[connectorIndex].element.remove();
+            connectors.splice(connectorIndex, 1);
+        }
+
+        delete matches[leftId];
+    }
+
+    // Поиск пары
+    function findPairForCard(cardId) {
+        if (matches[cardId]) {
+            return {leftId: cardId, rightId: matches[cardId]};
+        }
+
+        for (const [leftId, rightId] of Object.entries(matches)) {
+            if (rightId === cardId) return {leftId, rightId};
+        }
+
+        return null;
+    }
+
+    // Очистка при удалении вопроса
+    questionElement.querySelector('.delete-question')?.addEventListener('click', () => {
+        document.removeEventListener('click', handleDocumentClick);
+    });
 }
