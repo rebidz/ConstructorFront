@@ -198,22 +198,110 @@ document.addEventListener('DOMContentLoaded', async () => {
                     </div>`;
 
                 const pairsContainer = container.querySelector('.card-pairs-container');
-                // console.log(question)
+                const connections = [];
+                // Создаем карточки с уникальными ID
                 question.options.forEach((pair, index) => {
-                    const pairNum = index + 1;
-                    const pairId = `pair-${pairNum}`;
-                    const leftId = `left-${pairNum}-0`;
-                    const rightId = `right-${pairNum}-0`;
+                    const uniqueId = Date.now() + index;
+                    const pairId = `pair-${uniqueId}`;
+                    const leftId = `left-${uniqueId}-0`;
+                    const rightId = `right-${uniqueId}-0`;
 
                     pairsContainer.insertAdjacentHTML('beforeend', `
                         <div class="card-pair" data-pair-id="${pairId}">
-                            <div class="card left-card" data-id="${leftId}" data-original-id="${leftId}" contenteditable="true">${pair.text}</div>
-                            <div class="card right-card" data-id="${rightId}" data-original-id="${rightId}" contenteditable="true">${pair.text}</div>
+                            <div class="card left-card" data-id="${leftId}" 
+                                 data-original-id="${leftId}" 
+                                 contenteditable="true">${pair.text || 'Термин'}</div>
+                            <div class="card right-card" data-id="${rightId}" 
+                                 data-original-id="${rightId}" 
+                                 contenteditable="true">${pair.is_correct || 'Определение'}</div>
                             <button class="cross-but"><img class="cross" src="/src/static/img/cross.svg"></button>
                         </div>`);
+                    // Сохраняем информацию о связях
+                    if (pair.is_correct && pair.text) {
+                        connections.push({
+                            leftText: pair.text,
+                            rightText: pair.is_correct,
+                            leftId: leftId,
+                            rightId: rightId
+                        });
+                    }
                 });
 
                 optionsContainer.appendChild(container);
+
+                // Двойная инициализация для гарантии
+                setTimeout(() => {
+                    initMatchingGame(questionElement);
+
+                    const gameContainer = questionElement.querySelector('.matching-game');
+
+                    connections.forEach(conn => {
+                        const leftCard = questionElement.querySelector(`[data-id="${conn.leftId}"]`);
+                        const rightCard = questionElement.querySelector(`[data-id="${conn.rightId}"]`);
+
+                        if (leftCard && rightCard) {
+                            // Обновляем ID для отображения связи
+                            const leftParts = conn.leftId.split('-');
+                            const rightParts = conn.rightId.split('-');
+
+                            leftCard.dataset.id = `left-${leftParts[1]}-${rightParts[1]}`;
+                            rightCard.dataset.id = `right-${rightParts[1]}-${leftParts[1]}`;
+
+                            // Добавляем визуальные классы
+                            leftCard.classList.add('matched');
+                            rightCard.classList.add('matched');
+
+                            // Создаем соединительную линию
+                            const leftRect = leftCard.getBoundingClientRect();
+                            const rightRect = rightCard.getBoundingClientRect();
+                            const gameRect = gameContainer.getBoundingClientRect();
+
+                            const leftX = leftRect.right - gameRect.left;
+                            const leftY = leftRect.top + leftRect.height / 2 - gameRect.top;
+                            const rightX = rightRect.left - gameRect.left;
+                            const rightY = rightRect.top + rightRect.height / 2 - gameRect.top;
+
+                            const length = Math.sqrt(Math.pow(rightX - leftX, 2) + Math.pow(rightY - leftY, 2));
+                            const angle = Math.atan2(rightY - leftY, rightX - leftX) * 180 / Math.PI;
+
+                            const connector = document.createElement('div');
+                            connector.className = 'connector';
+                            connector.style.width = `${length}px`;
+                            connector.style.left = `${leftX}px`;
+                            connector.style.top = `${leftY}px`;
+                            connector.style.transform = `rotate(${angle}deg)`;
+
+                            gameContainer.appendChild(connector);
+                        }
+                    });
+
+                    // Принудительно активируем обработчики
+                    questionElement.querySelectorAll('.card-pair').forEach(pair => {
+                        const leftCard = pair.querySelector('.left-card');
+                        const rightCard = pair.querySelector('.right-card');
+                        const deleteBtn = pair.querySelector('.cross-but');
+
+                        // Ручная привязка событий
+                        leftCard?.addEventListener('click', handleCardClick);
+                        rightCard?.addEventListener('click', handleCardClick);
+                        deleteBtn?.addEventListener('click', function(e) {
+                            e.stopPropagation();
+                            pair.remove();
+                        });
+                    });
+
+                    // Активируем кнопку добавления
+                    const addButton = questionElement.querySelector('.add-pair-btn');
+                    addButton?.addEventListener('click', function() {
+                        const pairId = `pair-${Date.now()}`;
+                        const leftId = `left-${Date.now()}-0`;
+                        const rightId = `right-${Date.now()}-0`;
+
+
+
+                        pairsContainer.insertAdjacentHTML('beforeend', pairHTML);
+                    });
+                }, 100);
             }
 
             else if (question.question_type === 'text') {
@@ -279,7 +367,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             questionContainer.appendChild(questionElement);
             initializeQuestionControls(questionElement);
-            linkButton.innerHTML = `<a href="#" id="linkText">http://127.0.0.1:54722/ConstructorFront/src/templates/UserData.html?test_id=${testData.id}</a>`;
+            linkButton.innerHTML = `<a href="#" id="linkText">http://127.0.0.1:63342/ConstructorFront/src/templates/UserData.html?test_id=${testData.id}</a>`;
             if (!eventOnLinkAdded) {
                 copyLink();
                 eventOnLinkAdded = true;
@@ -536,6 +624,15 @@ function showNotification(message) {
 function initMatchingGame(questionElement) {
     const gameContainer = questionElement.querySelector('.matching-game');
     const pairsContainer = questionElement.querySelector('.card-pairs-container');
+
+        // Добавляем глобальную видимость обработчиков
+    window.handleCardClick = handleCardClick;
+
+    // Гарантируем, что все карточки получили обработчики
+    questionElement.querySelectorAll('.card').forEach(card => {
+        card.removeEventListener('click', handleCardClick);
+        card.addEventListener('click', handleCardClick);
+    });
 
     let selectedCard = null;
     const matches = {};
